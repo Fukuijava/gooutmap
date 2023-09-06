@@ -38,17 +38,14 @@
                 <button>更新</button>
             </td>
             <td>
-                <button>削除</button>
+                <form th:action="@{/gomap/delete}">
+                    <button type="submit">削除する</button>
+                    <input type="hidden" name="id" th:value="${gomap.id}" />
+                </form>
             </td>
 <!--            <td>-->
 <!--                <form th:action="@{/campmap/detail/{camp.id}}">-->
 <!--                    <button type="submit">詳細へ</button>-->
-<!--                    <input type="hidden" name="id" th:value="${camp.id}" />-->
-<!--                </form>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <form th:action="@{/campmap/delete}">-->
-<!--                    <button type="submit">削除</button>-->
 <!--                    <input type="hidden" name="id" th:value="${camp.id}" />-->
 <!--                </form>-->
 <!--            </td>-->

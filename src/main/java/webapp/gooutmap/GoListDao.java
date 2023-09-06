@@ -40,4 +40,9 @@ public class GoListDao {
                 )).toList();
         return goItems;
     }
+
+    public int delete(String id) {
+        int number = jdbcTemplate.update("DELETE FROM golist WHERE id = ?", id);
+        return number;
+    }
 }

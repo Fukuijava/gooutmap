@@ -38,6 +38,6 @@ public class RegisterController {
         String id = UUID.randomUUID().toString().substring(0, 8);
         GoListItem item = new GoListItem(id, pref, city, genre, move_means);
         dao.add(item);
-        return "redirect:/golist/list";
+        return "redirect:/gomap/list";
     }
 }
