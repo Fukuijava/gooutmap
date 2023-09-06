@@ -1,0 +1,41 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ゴーアウト-登録画面</title>
+    <!-- JQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <!--  home.js読み込み  -->
+    <script th:src="@{/GoListItem.js}"></script>
+</head>
+
+<body>
+<h2>「ゴーアウトマップ」に自分の行きたいと思う項目を登録しよう。</h2>
+<h2>登録した項目に合う場所をマップ画面で見れるよ！</h2>
+<h3>（マップ画面で家からのルートと到達時間も見れます！！）</h3>
+<div class="register_form">
+    <h2>登録項目</h2>
+
+    <form action="/gomap/add_item" method="post">
+        <label>都道府県</label>
+        <select name="pref" id="pref"></select>
+        <br>
+        <label>市区町村</label>
+        <select name="city" id="city">
+            <option value="">市区町村を選択してください</option>
+        </select>
+        <br>
+        <label>ジャンル</label>
+        <select name="genre" id="genre"></select>
+        <br>
+        <label>移動手段</label>
+        <select name="move_means" id="move_means">
+            <option value="車">車</option>
+            <option value="徒歩">徒歩</option>
+        </select>
+        <br>
+        <input type="submit" value="登録"/>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <a href="/gomap/register">登録へ</a>
+    <title>ゴーアウトマップ-一覧画面</title>
+</head>
+
+<body>
+<div class="list_form">
+    <h2>お出かけ先一覧</h2>
+
+    <table  border="1" style="border-collapse:collapse;">
+        <thead>
+        <tr>
+            <th class="hidden">ID</th>
+            <th>都道府県</th>
+            <th>市区町村</th>
+            <th>ジャンル</th>
+            <th>移動手段</th>
+            <th>マップ</th>
+            <th>更新</th>
+            <th>削除</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="gomap : ${gomapList}"}>
+            <td th:text="${gomap.id}" class="hidden" ></td>
+            <td th:text="${gomap.pref}"></td>
+            <td th:text="${gomap.city}"></td>
+            <td th:text="${gomap.genre}"></td>
+            <td th:text="${gomap.move_means}"></td>
+            <td>
+                <button>マップへ</button>
+            </td>
+            <td>
+                <button>更新</button>
+            </td>
+            <td>
+                <button>削除</button>
+            </td>
+<!--            <td>-->
+<!--                <form th:action="@{/campmap/detail/{camp.id}}">-->
+<!--                    <button type="submit">詳細へ</button>-->
+<!--                    <input type="hidden" name="id" th:value="${camp.id}" />-->
+<!--                </form>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <form th:action="@{/campmap/delete}">-->
+<!--                    <button type="submit">削除</button>-->
+<!--                    <input type="hidden" name="id" th:value="${camp.id}" />-->
+<!--                </form>-->
+<!--            </td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
