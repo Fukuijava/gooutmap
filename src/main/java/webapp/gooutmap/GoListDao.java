@@ -45,4 +45,15 @@ public class GoListDao {
         int number = jdbcTemplate.update("DELETE FROM golist WHERE id = ?", id);
         return number;
     }
+
+    public int update(RegisterController.GoListItem goListItem){
+        int number = jdbcTemplate.update(
+                "UPDATE golist SET pref = ?, city = ?, genre = ?, move_means = ? WHERE id = ?",
+                goListItem.pref(),
+                goListItem.city(),
+                goListItem.genre(),
+                goListItem.move_means(),
+                goListItem.id());
+        return number;
+    }
 }

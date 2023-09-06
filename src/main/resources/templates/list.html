@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <a href="/gomap/register">登録へ</a>
     <title>ゴーアウトマップ-一覧画面</title>
+    <!-- Bootstrap(head記述) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!--     home.css読み込み -->
+    <link th:href="@{/list.css}" rel="stylesheet">
+    <!-- JQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <!--  home.js読み込み  -->
+    <script th:src="@{/GoListItem.js}"></script>
 </head>
 
 <body>
@@ -35,7 +43,7 @@
                 <button>マップへ</button>
             </td>
             <td>
-                <button>更新</button>
+                <button name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新</button>
             </td>
             <td>
                 <form th:action="@{/gomap/delete}">
@@ -53,5 +61,45 @@
         </tbody>
     </table>
 </div>
+<div class="modal fade" id="updatedialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/gomap/update}" method="post">
+                <div class="modal-header">
+                    <h2>項目を更新します</h2>
+                </div>
+
+                <div class="modal-body">
+                    <input name="id" id="id" type="hidden"/>
+                    <label>都道府県</label>
+                    <select name="pref" id="pref"></select>
+                    <br>
+                    <label>市区町村</label>
+                    <select name="city" id="city">
+                        <option value="">市区町村を選択してください</option>
+                    </select>
+                    <br>
+                    <label>ジャンル</label>
+                    <select name="genre" id="genre"></select>
+                    <br>
+                    <label>移動手段</label>
+                    <select name="move_means" id="move_means">
+                        <option value="車">車</option>
+                        <option value="徒歩">徒歩</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">更新</button>
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap(body記述) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
 </body>
 </html>

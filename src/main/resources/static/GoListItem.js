@@ -138,3 +138,13 @@ $(function() {
     $('#genre').html(genreOption);
   }
 });
+
+//更新ダイアログに一覧の値をコピー
+function copyToDialog(row){
+    var children = $(row).children();
+    $('#id').val($(children)[0].textContent);
+    $('#pref').val($(children)[1].textContent);
+    $('#city').val($(children)[2].textContent);
+    $('#genre').val($(children)[3].textContent);
+    $('#move_means').val($(children)[4].textContent);
+}
