@@ -82,6 +82,7 @@ var genre = [
 
 //都道府県と市区町村を連動させた<option>
 $(function() {
+//$(document).ready(function (){
   var prefOption = '',
     value,
     prefdata,
@@ -90,9 +91,9 @@ $(function() {
     prefdata = pref[i]
     value = prefdata[0];
     if (value == '都道府県を選択してください') {
-      prefOption += '<option value="" selected>' + value + '</option>\n';
+      prefOption += '<option value="" selected>' + value + '</option>';
     } else {
-      prefOption += '<option value="' + value + '">' + value + '</option>\n';
+      prefOption += '<option value="' + value + '">' + value + '</option>';
     }
     $('#pref').html(prefOption);
   }
@@ -100,19 +101,17 @@ $(function() {
   $('#pref').on('change', function() {
     var index = $(this).prop('selectedIndex');
     var selected = $(this).val();
+    var cityOption = '';
     if (selected !== '') {
-      var cityOption = '';
       $.each(pref[index][1], function() {
-        if (this == '市区町村で絞り込む') {
-          cityOption += '<option value="">' + this + '</option>\n';
-          console.log(this);
+        if (this == '市区町村を選択してくたさい') {
+          cityOption += '<option value="">' + this + '</option>';
         } else {
-          cityOption += '<option value="' + this + '">' + this + '</option>\n';
-          console.log(this);
+          cityOption += '<option value="' + this + '">' + this + '</option>';
         }
       });
       $('#city').html(cityOption);
-    } else {
+    }else {
       $('#city').html('<option value="">市区町村を選択してくたさい</option>');
     }
   });
@@ -144,7 +143,8 @@ function copyToDialog(row){
     var children = $(row).children();
     $('#id').val($(children)[0].textContent);
     $('#pref').val($(children)[1].textContent);
-    $('#city').val($(children)[2].textContent);
+//    $('#city').val($(children)[2].textContent);
+    $('#city option:selected').val($(children)[2].textContent);
     $('#genre').val($(children)[3].textContent);
     $('#move_means').val($(children)[4].textContent);
 }
