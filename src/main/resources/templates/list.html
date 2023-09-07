@@ -34,15 +34,15 @@
 
         <tbody>
         <tr th:each="gomap : ${gomapList}"}>
-            <td th:text="${gomap.id}" class="hidden" ></td>
+            <td th:text="${gomap.golist_id}" class="hidden" ></td>
             <td th:text="${gomap.pref}"></td>
             <td th:text="${gomap.city}"></td>
             <td th:text="${gomap.genre}"></td>
             <td th:text="${gomap.move_means}"></td>
             <td>
-                <form th:action="@{/gomap/map/{gomap.id}}">
+                <form th:action="@{/gomap/map/{gomap.golist_id}}">
                     <button type="submit">マップへ</button>
-                    <input type="hidden" name="id" th:value="${gomap.id}" />
+                    <input type="hidden" name="golist_id" th:value="${gomap.golist_id}" />
                 </form>
             </td>
             <td>
@@ -51,7 +51,7 @@
             <td>
                 <form th:action="@{/gomap/delete}">
                     <button type="submit" class="btn btn-secondary">削除する</button>
-                    <input type="hidden" name="id" th:value="${gomap.id}" />
+                    <input type="hidden" name="golist_id" th:value="${gomap.golist_id}" />
                 </form>
             </td>
         </tr>
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <input name="id" id="id" type="hidden"/>
+                    <input name="golist_id" id="golist_id" type="hidden"/>
                     <label>都道府県</label>
                     <select name="pref" id="pref"></select>
                     <br>

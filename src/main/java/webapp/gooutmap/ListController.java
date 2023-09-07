@@ -25,18 +25,18 @@ public class ListController {
     }
 
     @GetMapping("/gomap/delete")
-    String delete(@RequestParam("id") String id){
-        this.dao.delete(id);
+    String delete(@RequestParam("golist_id") String golist_id){
+        this.dao.delete(golist_id);
         return "redirect:/gomap/list";
     }
 
     @PostMapping("/gomap/update")
-    public String update(@RequestParam("id") String id,
+    public String update(@RequestParam("golist_id") String golist_id,
                          @RequestParam("pref") String pref,
                          @RequestParam("city") String city,
                          @RequestParam("genre") String genre,
                          @RequestParam("move_means") String move_means){
-        RegisterController.GoListItem item = new RegisterController.GoListItem(id, pref, city, genre, move_means);
+        RegisterController.GoListItem item = new RegisterController.GoListItem(golist_id, pref, city, genre, move_means);
                 dao.update(item);
         return "redirect:/gomap/list";
     }

@@ -15,10 +15,10 @@ public class MapController {
     MapController(GoListDao dao) {
         this.dao = dao;
     }
-    @GetMapping("/gomap/map/{id}")
-    public String map(@PathParam("id") String id,
+    @GetMapping("/gomap/map/{golist_id}")
+    public String map(@PathParam("golist_id") String golist_id,
                        Model model) {
-        List<RegisterController.GoListItem> goListItems = this.dao.map(id);
+        List<RegisterController.GoListItem> goListItems = this.dao.map(golist_id);
         model.addAttribute("gomapList", goListItems);
         return "map";
     }

@@ -14,7 +14,7 @@ import java.util.UUID;
 public class RegisterController {
 
     public record GoListItem(
-            String id, String pref, String city, String genre, String move_means){
+            String golist_id, String pref, String city, String genre, String move_means){
     }
 
     private List<GoListItem> goListItems = new ArrayList<>();
@@ -35,8 +35,8 @@ public class RegisterController {
                            @RequestParam("city") String city,
                            @RequestParam("genre") String genre,
                            @RequestParam("move_means") String move_means) {
-        String id = UUID.randomUUID().toString().substring(0, 8);
-        GoListItem item = new GoListItem(id, pref, city, genre, move_means);
+        String golist_id = UUID.randomUUID().toString().substring(0, 8);
+        GoListItem item = new GoListItem(golist_id, pref, city, genre, move_means);
         dao.add(item);
         return "redirect:/gomap/list";
     }
