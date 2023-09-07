@@ -100,10 +100,10 @@ $(function() {
   $('#pref').on('change', function() {
     var index = $(this).prop('selectedIndex');
     var selected = $(this).val();
-    if (selected !== '') {
+    if (selected != '') {
       var cityOption = '';
       $.each(pref[index][1], function() {
-        if (this == '市区町村で絞り込む') {
+        if (this == '市区町村を選択してくたさい') {
           cityOption += '<option value="">' + this + '</option>\n';
           console.log(this);
         } else {
