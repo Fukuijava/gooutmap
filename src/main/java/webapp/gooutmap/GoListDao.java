@@ -56,4 +56,18 @@ public class GoListDao {
                 goListItem.id());
         return number;
     }
+
+    public List<RegisterController.GoListItem> map(String id) {
+        String query = "SELECT * FROM golist WHERE id ='"+id +"'";
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(query);
+        List<RegisterController.GoListItem> goListItems = result.stream()
+                .map((Map<String, Object> row) -> new RegisterController.GoListItem(
+                        (String) row.get("id"),
+                        (String) row.get("pref"),
+                        (String) row.get("city"),
+                        (String) row.get("genre"),
+                        (String) row.get("move_means")
+                )).toList();
+        return goListItems;
+    }
 }

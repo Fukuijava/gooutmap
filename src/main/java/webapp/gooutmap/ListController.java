@@ -40,4 +40,6 @@ public class ListController {
                 dao.update(item);
         return "redirect:/gomap/list";
     }
+
+
 }

@@ -40,23 +40,20 @@
             <td th:text="${gomap.genre}"></td>
             <td th:text="${gomap.move_means}"></td>
             <td>
-                <button>マップへ</button>
-            </td>
-            <td>
-                <button name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新</button>
-            </td>
-            <td>
-                <form th:action="@{/gomap/delete}">
-                    <button type="submit">削除する</button>
+                <form th:action="@{/gomap/map/{gomap.id}}">
+                    <button type="submit">マップへ</button>
                     <input type="hidden" name="id" th:value="${gomap.id}" />
                 </form>
             </td>
-<!--            <td>-->
-<!--                <form th:action="@{/campmap/detail/{camp.id}}">-->
-<!--                    <button type="submit">詳細へ</button>-->
-<!--                    <input type="hidden" name="id" th:value="${camp.id}" />-->
-<!--                </form>-->
-<!--            </td>-->
+            <td>
+                <button name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新する</button>
+            </td>
+            <td>
+                <form th:action="@{/gomap/delete}">
+                    <button type="submit" class="btn btn-secondary">削除する</button>
+                    <input type="hidden" name="id" th:value="${gomap.id}" />
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
