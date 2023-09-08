@@ -1,9 +1,0 @@
-#updateDialog{
-    display: none;
-    back-ground-color: #FFF-FFF;
-    border: 2px double;
-    width: 500px;
-    position: center;
-    top: 120px;
-    z-index: 9999;
-}

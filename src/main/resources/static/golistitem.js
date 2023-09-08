@@ -82,7 +82,6 @@ var genre = [
 
 //都道府県と市区町村を連動させた<option>
 $(function() {
-//$(document).ready(function (){
   var prefOption = '',
     value,
     prefdata,
@@ -102,7 +101,7 @@ $(function() {
     var index = $(this).prop('selectedIndex');
     var selected = $(this).val();
     var cityOption = '';
-    if (selected !== '') {
+    if (selected != '') {
       $.each(pref[index][1], function() {
         if (this == '市区町村を選択してくたさい') {
           cityOption += '<option value="">' + this + '</option>';
@@ -129,10 +128,10 @@ $(function() {
     name = genredata[0];
     value = genredata[1];
     if (value == 'ジャンルを選択してください') {
-      genreOption += '<option value="" selected>' + name + '</option>\n';
+      genreOption += '<option value="" selected>' + name + '</option>';
     } else {
     var index = $(this).prop('selectedIndex');
-    genreOption += '<option value="' + value + '">' + name + '</option>\n';
+    genreOption += '<option value="' + value + '">' + name + '</option>';
     }
     $('#genre').html(genreOption);
   }
@@ -141,7 +140,7 @@ $(function() {
 //更新ダイアログに一覧の値をコピー
 function copyToDialog(row){
     var children = $(row).children();
-    $('#id').val($(children)[0].textContent);
+    $('#golist_id').val($(children)[0].textContent);
     $('#pref').val($(children)[1].textContent);
 //    $('#city').val($(children)[2].textContent);
     $('#city option:selected').val($(children)[2].textContent);

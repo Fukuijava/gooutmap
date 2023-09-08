@@ -5,15 +5,17 @@
     <title>ゴーアウト-登録画面</title>
     <!-- JQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-    <!--  home.js読み込み  -->
-    <script th:src="@{/GoListItem.js}"></script>
+    <!--  golistitem.js読み込み  -->
+    <script th:src="@{/golistitem.js}"></script>
+    <!--     register.css読み込み -->
+    <link th:href="@{/register.css}" rel="stylesheet">
 </head>
 
 <body>
 <h2>「ゴーアウトマップ」に自分の行きたいと思う項目を登録しよう。</h2>
 <h2>登録した項目に合う場所をマップ画面で見れるよ！</h2>
 <h3>（マップ画面で家からのルートと到達時間も見れます！！）</h3>
-<div class="register_form">
+<div class="item_register_form">
     <h2>登録項目</h2>
 
     <form action="/gomap/add_item" method="post">
@@ -33,6 +35,22 @@
             <option value="車">車</option>
             <option value="徒歩">徒歩</option>
         </select>
+        <br>
+        <input type="submit" value="登録"/>
+    </form>
+</div>
+<div class="space"></div>
+<div class="myhome_register_form">
+    <h2>家の座標登録</h2>
+
+    <form action="/gomap/set_myhome" method="post">
+        <label>緯度</label>
+        <input name="latitude" id="latitude" type="text"/>
+        <br>
+        <label>経度</label>
+        <input name="longitude" id="longitude" type="text"/>
+        <br>
+        (一度登録された座標は保存されます。)
         <br>
         <input type="submit" value="登録"/>
     </form>
