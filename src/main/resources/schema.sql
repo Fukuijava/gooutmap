@@ -5,12 +5,8 @@ CREATE TABLE IF NOT EXISTS golist(
     genre varchar(16),
     move_means varchar(8)
 );
-
-CREATE TABLE IF NOT EXISTS maplist(
-    maplist_id varchar(8) primary key,
-    golist_id varchar(8) not null,
+CREATE TABLE IF NOT EXISTS my_home(
+    my_home_id varchar(8) primary key,
     latitude varchar(64),
-    longitude varchar(64),
-    FOREIGN KEY fk_golist(golist_id)
-    REFERENCES golist(golist_id)
+    longitude varchar(64)
 );

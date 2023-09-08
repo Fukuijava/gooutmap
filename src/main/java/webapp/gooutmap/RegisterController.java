@@ -2,6 +2,7 @@ package webapp.gooutmap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,9 @@ public class RegisterController {
     public record GoListItem(
             String golist_id, String pref, String city, String genre, String move_means){
     }
+    public record MyHomeItem(
+            String my_home_id, String latitude, String longitude){
+    }
 
     private List<GoListItem> goListItems = new ArrayList<>();
 
@@ -27,7 +31,7 @@ public class RegisterController {
     }
 
     @GetMapping("/gomap/register")
-    public String register() {
+    public String register(Model model) {
         return "register";
     }
     @PostMapping("/gomap/add_item")
@@ -37,7 +41,18 @@ public class RegisterController {
                            @RequestParam("move_means") String move_means) {
         String golist_id = UUID.randomUUID().toString().substring(0, 8);
         GoListItem item = new GoListItem(golist_id, pref, city, genre, move_means);
-        dao.add(item);
+        dao.add_item(item);
         return "redirect:/gomap/list";
+    }
+
+    @PostMapping("/gomap/set_myhome")
+    public String add_item(@RequestParam("latitude") String latitude,
+                           @RequestParam("longitude") String longitude,
+                           Model model) {
+        String my_home_id = UUID.randomUUID().toString().substring(0, 8);
+        MyHomeItem item = new MyHomeItem(my_home_id, latitude, longitude);
+        dao.set_myhome(item);
+        model.addAttribute(latitude,longitude);
+        return "register";
     }
 }
