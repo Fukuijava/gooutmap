@@ -42,18 +42,27 @@
 <div class="space"></div>
 <div class="myhome_register_form">
     <h2>家の座標登録</h2>
-
-    <form action="/gomap/set_myhome" method="post">
+    <form action="/gomap/set_myhome" method="post" id="myhome_form">
         <label>緯度</label>
-        <input name="latitude" id="latitude" type="text"/>
+        <input name="latitude"  id="latitude" value="" type="text" />
         <br>
         <label>経度</label>
-        <input name="longitude" id="longitude" type="text"/>
+        <input name="longitude" id="longitude" value="" type="text" />
         <br>
-        (一度登録された座標は保存されます。)
+        （一度登録された座標は保存されます。）
         <br>
-        <input type="submit" value="登録"/>
+        <input type="submit" value="登録" onclick="return_value();"/>
     </form>
+</div>
+
+<div class="myhome_Coordinate">
+    <br>
+    <br>
+    現在登録されている座標
+    <div id="aa"></div>
+    <div id="bb"></div>
+<!--    <p th:text=""></p>-->
+<!--    <p th:text=""></p>-->
 </div>
 </body>
 </html>

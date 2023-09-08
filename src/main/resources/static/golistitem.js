@@ -147,3 +147,11 @@ function copyToDialog(row){
     $('#genre').val($(children)[3].textContent);
     $('#move_means').val($(children)[4].textContent);
 }
+
+function return_value() {
+    var la_value = document.getElementById('latitude').value;
+    var lo_value = document.getElementById('longitude').value;
+    alert(la_value+lo_value);
+    document.getElementById('aa').innerHTML = la_value ;
+    document.getElementById('bb').innerHTML = lo_value ;
+}
