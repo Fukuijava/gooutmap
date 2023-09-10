@@ -11,11 +11,19 @@
 
     <table border="1" style="border-collapse:collapse;">
         <tbody th:each="gomap : ${gomapList}">
-            <tr><th class="hidden">ID</th><td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
+            <tr><th class="hidden">golist_ID</th><td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
             <tr><th>都道府県</th>           <td th:text="${gomap.pref}"></td></tr>
             <tr><th>市区町村</th>           <td th:text="${gomap.city}"></td></tr>
             <tr><th>ジャンル</th>           <td th:text="${gomap.genre}"></td></tr>
             <tr><th>移動手段</th>           <td th:text="${gomap.move_means}"></td></tr>
+        </tbody>
+    </table>
+
+    <table border="1" style="border-collapse:collapse;">
+        <tbody th:each="my_home : ${my_home_List}">
+        <tr><th>myhome_ID</th>  <td th:text="${my_home.my_home_id}"></td></tr>
+        <tr><th>緯度</th> <td th:text="${my_home.latitude}"></td></tr>
+        <tr><th>経度</th> <td th:text="${my_home.longitude}"></td></tr>
         </tbody>
     </table>
 </div>

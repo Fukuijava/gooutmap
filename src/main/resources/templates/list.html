@@ -10,13 +10,15 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <!--  golistitem.js読み込み  -->
     <script th:src="@{/golistitem.js}"></script>
+    <!--     list.css読み込み -->
+    <link th:href="@{/list.css}" rel="stylesheet">
 </head>
 
 <body>
 <div class="list_form">
     <h2>お出かけ先一覧</h2>
 
-    <table  border="1" style="border-collapse:collapse;">
+    <table class="table table-striped" id="listform">
         <thead>
         <tr>
             <th class="hidden">ID</th>
@@ -39,7 +41,7 @@
             <td th:text="${gomap.move_means}"></td>
             <td>
                 <form th:action="@{/gomap/map/{gomap.golist_id}}">
-                    <button type="submit">マップへ</button>
+                    <button type="submit" class="btn btn-success">マップへ</button>
                     <input type="hidden" name="golist_id" th:value="${gomap.golist_id}" />
                 </form>
             </td>

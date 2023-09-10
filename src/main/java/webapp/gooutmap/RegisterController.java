@@ -30,8 +30,11 @@ public class RegisterController {
         this.dao = dao;
     }
 
+
     @GetMapping("/gomap/register")
     public String register(Model model) {
+        List<MyHomeItem> my_home_Items = dao.myhome();
+        model.addAttribute("my_home_List", my_home_Items);
         return "register";
     }
     @PostMapping("/gomap/add_item")
@@ -45,14 +48,15 @@ public class RegisterController {
         return "redirect:/gomap/list";
     }
 
-    @PostMapping("/gomap/set_myhome")
+    @GetMapping("/gomap/set_myhome")
     public String add_item(@RequestParam("latitude") String latitude,
                            @RequestParam("longitude") String longitude,
                            Model model) {
         String my_home_id = UUID.randomUUID().toString().substring(0, 8);
         MyHomeItem item = new MyHomeItem(my_home_id, latitude, longitude);
         dao.set_myhome(item);
-        model.addAttribute(latitude,longitude);
+        List<MyHomeItem> my_home_Items = dao.myhome();
+        model.addAttribute("my_home_List", my_home_Items);
         return "register";
     }
 }
