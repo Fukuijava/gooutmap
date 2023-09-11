@@ -8,7 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <!--  map.js読み込み  -->
     <script th:src="@{/map.js}"></script>
-
+    <!-- Geocoding API -->
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAbg39Llk-5ODPu6_oblgm05ieOtom0RJc"></script>
+    <!-- Maps JavaScript API -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbg39Llk-5ODPu6_oblgm05ieOtom0RJc&callback=initMap"></script>
 <!--    <script async src="https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters"></script>-->
 </head>
@@ -18,7 +20,7 @@
 
 <div class="map_list">
 
-    <table border="1" style="border-collapse:collapse;">
+    <table border="1" style="border-collapse:collapse;" id="go">
         <tbody th:each="gomap : ${gomapList}">
             <tr><th class="hidden">golist_ID</th><td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
             <tr><th >都道府県</th>           <td th:text="${gomap.pref}" id="pref"></td></tr>
@@ -28,7 +30,7 @@
         </tbody>
     </table>
 
-    <table border="1" style="border-collapse:collapse;">
+    <table border="1" style="border-collapse:collapse;" id="home">
         <tbody th:each="my_home : ${my_home_List}">
         <tr><th>myhome_ID</th>  <td th:text="${my_home.my_home_id}"></td></tr>
         <tr><th>緯度</th> <td th:text="${my_home.latitude}"></td></tr>
