@@ -22,7 +22,7 @@ function initMap() {
                 var bb = new google.maps.LatLng(aa);
                 //マップ表示
                 new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
+                zoom: 11,
                 center: bb
                 });
             }
