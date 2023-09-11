@@ -17,13 +17,13 @@ function initMap() {
     geocoder.geocode({ address: pref + city },
         function( results, status ){
             if( status == google.maps.GeocoderStatus.OK ){
-                var aa = results[ 0 ].geometry.location
-                alert(aa);
-                var bb = new google.maps.LatLng(aa);
+                var address = results[ 0 ].geometry.location
+                alert(address);
+                var la_lo = new google.maps.LatLng(address);
                 //マップ表示
                 new google.maps.Map(document.getElementById('map'), {
                 zoom: 11,
-                center: bb
+                center: la_lo
                 });
             }
             else{
