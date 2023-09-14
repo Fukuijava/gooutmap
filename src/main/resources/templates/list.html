@@ -9,7 +9,7 @@
     <!-- JQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <!--  golistitem.js読み込み  -->
-    <script th:src="@{/golistitem.js}"></script>
+    <script th:src="@{/list.js}"></script>
     <!--     list.css読み込み -->
     <link th:href="@{/list.css}" rel="stylesheet">
 </head>
@@ -36,7 +36,7 @@
         <tr th:each="gomap : ${gomapList}">
             <td th:text="${gomap.golist_id}" class="hidden" ></td>
             <td th:text="${gomap.pref}"></td>
-            <td th:text="${gomap.city}"></td>
+            <td th:text="${gomap.city}" id="aaa"></td>
             <td th:text="${gomap.genre}"></td>
             <td th:text="${gomap.move_means}"></td>
             <td>
@@ -46,7 +46,7 @@
                 </form>
             </td>
             <td>
-                <button name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新する</button>
+                <button id="update_bu" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新する</button>
             </td>
             <td>
                 <form th:action="@{/gomap/delete}">
@@ -72,10 +72,7 @@
                     <select name="pref" id="pref"></select>
                     <br>
                     <label>市区町村</label>
-                    <select name="city" id="city">
-                        <option value="">先に都道府県を選択して下さい</option>
-                    </select>
-
+                    <select name="city" id="city"></select>
                     <br>
                     <label>ジャンル</label>
                     <select name="genre" id="genre"></select>
@@ -88,7 +85,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">更新</button>
+                    <button type="submit" class="btn btn-primary" id="">更新</button>
                     <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
                 </div>
             </form>

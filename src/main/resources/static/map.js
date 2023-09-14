@@ -21,14 +21,21 @@ function initMap() {
                 alert(address);
                 var la_lo = new google.maps.LatLng(address);
                 //マップ表示
-                new google.maps.Map(document.getElementById('map'), {
+                var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 11,
                 center: la_lo
                 });
+                new google.maps.Marker({
+                    position: la_lo,
+                    map,
+                    title: "Hello World!",
+                });
+                window.initMap = initMap;
             }
             else{
                 alert( 'Faild：' + status );
             }
         }
     );
+
 }
