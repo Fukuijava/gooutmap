@@ -59,4 +59,13 @@ public class RegisterController {
         model.addAttribute("my_home_List", my_home_Items);
         return "register";
     }
+
+    @GetMapping("/gomap/test3")
+    public String test3() {
+        return "test3";
+    }
+    @GetMapping("/gomap/test4")
+    public String test4() {
+        return "test4";
+    }
 }
