@@ -132,21 +132,21 @@ var genre = [
 
 //都道府県と市区町村を連動させた<option>
 $(function() {
-  var prefOption = '',
-    value1,
-    prefdata,
-    prefLength = pref.length;
-  for (var i = 0; i < prefLength; i++) {
-    prefdata = pref[i]
-    value1 = prefdata[0];
-    if (value1 == '都道府県を選択してください') {
-      prefOption += '<option value="" selected>' + value1 + '</option>';
-    } else {
-      prefOption += '<option value="' + value1 + '">' + value1 + '</option>';
+    var prefOption = '',
+        prefValue,
+        prefData,
+        prefLength = pref.length;
+    for (var i = 0; i < prefLength; i++) {
+        prefData = pref[i]
+        prefValue = prefData[0];
+        if (prefValue == '都道府県を選択してください') {
+            prefOption += '<option value="" selected>' + prefValue + '</option>';
+        } else {
+            prefOption += '<option value="' + prefValue + '">' + prefValue + '</option>';
+        }
+        $('#pref').html(prefOption);
     }
-    $('#pref').html(prefOption);
-  }
- $('#pref').on('input', function() {
+ $('#pref').on('change', function() {
     var index = $(this).prop('selectedIndex');
     var selected = $(this).val();
     console.log(this);
@@ -166,108 +166,23 @@ $(function() {
 });
 });
 
-
-//    var index = $(this).prop('selectedIndex');
-//    var selected = $(this).val();
-//    var cityOption = '',
-//    value2,
-//    value2Length,
-//    citydata;
-//    citydata = city[index]
-//    value2 = citydata;
-//    value2Length = value2.length;
-//       for (var i = 0; i < value2Length ; i++) {
-//           if(value2[0] == '市区町村を選択してくたさい'){
-//           cityOption += '<option value="" selected>' + value2[i] + '</option>';
-//           } else {
-//           cityOption += '<option value="' + value2[i] + '">' + value2[i] + '</option>';
-//           }
-//        }
-//    $('#city').html(cityOption);
-//});
-//});
-
 //ジャンルの<option>
 $(function() {
-  var genreOption = '',
-    name,
-    value,
-    genredata,
+//ジャンルのセレクト
+var genreOption = '',
+    genreName,
+    genreValue,
+    genreData,
     genreLength = genre.length;
-  for (var i = 0; i < genreLength; i++) {
-    genredata = genre[i]
-    name = genredata[0];
-    value = genredata[1];
-    if (value == 'ジャンルを選択してください') {
-      genreOption += '<option value="">' + name + '</option>';
+for (var i = 0; i < genreLength; i++) {
+    genreData = genre[i]
+    genreName = genreData[0];
+    genreValue = genreData[1];
+    if (genreValue == 'ジャンルを選択してください') {
+        genreOption += '<option value="">' + genreName + '</option>';
     } else {
-    var index = $(this).prop('selectedIndex');
-    genreOption += '<option value="' + value + '">' + name + '</option>';
+        genreOption += '<option value="' + genreValue + '">' + genreName + '</option>';
     }
     $('#genre').html(genreOption);
-  }
-});
-
-//更新ダイアログに一覧の値をコピー
-function copyToDialog(row){
-    var children = $(row).children();
-    $('#golist_id').val($(children)[0].textContent);
-    $('#pref').val($(children)[1].textContent);
-    $('#city').val($(children)[2].textContent);
-//    $('#city option:selected').val($(children)[2].textContent);
-    $('#genre').val($(children)[3].textContent);
-    $('#move_means').val($(children)[4].textContent);
 }
-
-
-//function copyToDialog(row){
-//var gotable1 = document.getElementById("listform");
-//   var city = gotable1.rows[2].cells[2].textContent
-//   var children = $(row).children();
-//    $('#golist_id').val($(children)[0].textContent);
-//    $('#pref').val($(children)[1].textContent);
-//    $('#city option:selected').val;
-//    $('#genre').val($(children)[3].textContent);
-//    $('#move_means').val($(children)[4].textContent);
-//
-//    var aa = $('#pref').val();
-//    var bb= $('#city').val();
-//    var index2 = $('#pref').prop('selectedIndex');
-//    console.log(aa,bb,index2);
-//
-//        var index = $('#pref').prop('selectedIndex');
-//        var selected = $('#pref').val();
-//        console.log(index,selected);
-//        var cccc = pref[index][2];
-//        console.log(cccc);
-//        cccc.
-//
-//}
-
-//function copyToDialog(row){
-//    var children = $(row).children();
-//    $('#golist_id').val($(children)[0].textContent);
-//    $('#pref').val($(children)[1].textContent);
-//    var index = $('#pref').prop('selectedIndex');
-//    var selected = $('#pref').val();
-//    var vv = index[];
-//
-//        var da = $('#aaa').html($(children)[2].textContent);
-//         var dddd = $('#city').html().innerHTML;
-//
-//    console.log(index,selected);
-//    console.log(da,dddd);
-//
-//    $('#city').val($(children)[2].textContent);
-//    var index3 = $('#aaa').prop('selectedIndex');
-//    var selected3 = $('#aaa').val();
-//
-//    console.log(index3,selected3);
-//    var da = $('#aaa').html($(children)[2].textContent);
-//     var dddd = $('#city').html($(children)[2].textContent);
-//    $('#city').val($(children)[2].textContent);
-//    var index = $('#pref').prop('selectedIndex');
-//    document.getElementById('#city').value=dddd;
-//    $('#genre').val($(children)[3].textContent);
-//    $('#move_means').val($(children)[4].textContent);
-//}
+});

@@ -130,72 +130,72 @@ var city = [
   ['市区町村を選択してください','分からない',  '那覇市', '宜野湾市', '石垣市', '浦添市', '名護市', '糸満市', '沖縄市', '豊見城市', 'うるま市', '宮古島市', '南城市', '国頭村', '大宜味村', '東村', '今帰仁村', '本部町', '恩納村', '宜野座村', '金武町', '伊江村', '読谷村', '嘉手納町', '北谷町', '北中城村', '中城村', '西原町', '与那原町', '南風原町', '渡嘉敷村', '座間味村', '粟国村', '渡名喜村', '南大東村', '北大東村', '伊平屋村', '伊是名村', '久米島町', '八重瀬町', '多良間村', '竹富町', '与那国町']
 ];
 
-//都道府県と市区町村を連動させた<option>
+//都道府県のセレクト
 $(function() {
-  var prefOption = '',
-    value1,
-    prefdata,
-    prefLength = pref.length;
-  for (var i = 0; i < prefLength; i++) {
-    prefdata = pref[i]
-    value1 = prefdata[0];
-    if (value1 == '都道府県を選択してください') {
-      prefOption += '<option value="" selected>' + value1 + '</option>';
-    } else {
-      prefOption += '<option value="' + value1 + '">' + value1 + '</option>';
-    }
-    $('#pref').html(prefOption);
-  }
- $('#pref').on('focus', function() {
-    var index = $(this).prop('selectedIndex');
-    var selected = $(this).val();
-    console.log(this);
-    var cityOption = '';
-    if (selected != '') {
-      $.each(pref[index][1], function() {
-        if (this == '市区町村を選択してくたさい') {
-          cityOption += '<option value="">' + this + '</option>';
+    var prefOption = '',
+        prefValue,
+        prefData,
+        prefLength = pref.length;
+    for (var i = 0; i < prefLength; i++) {
+        prefData = pref[i]
+        prefValue = prefData[0];
+        if (prefValue == '都道府県を選択してください') {
+            prefOption += '<option value="" selected>' + prefValue + '</option>';
         } else {
-          cityOption += '<option value="' + this + '">' + this + '</option>';
+            prefOption += '<option value="' + prefValue + '">' + prefValue + '</option>';
         }
-      });
-      $('#city').html(cityOption);
-    }else {
-      $('#city').html('<option value="">市区町村を選択してくたさい</option>');
+        $('#pref').html(prefOption);
     }
 });
-});
 
-
-
-$(function() {
-  var genreOption = '',
-    name,
-    value,
-    genredata,
+function copyToDialog(row){
+//ジャンルのセレクト
+var genreOption = '',
+    genreName,
+    genreValue,
+    genreData,
     genreLength = genre.length;
-  for (var i = 0; i < genreLength; i++) {
-    genredata = genre[i]
-    name = genredata[0];
-    value = genredata[1];
-    if (value == 'ジャンルを選択してください') {
-      genreOption += '<option value="">' + name + '</option>';
+for (var i = 0; i < genreLength; i++) {
+    genreData = genre[i]
+    genreName = genreData[0];
+    genreValue = genreData[1];
+    if (genreValue == 'ジャンルを選択してください') {
+        genreOption += '<option value="">' + genreName + '</option>';
     } else {
-    var index = $(this).prop('selectedIndex');
-    genreOption += '<option value="' + value + '">' + name + '</option>';
+        genreOption += '<option value="' + genreValue + '">' + genreName + '</option>';
     }
     $('#genre').html(genreOption);
-  }
-});
+}
 
-//更新ダイアログに一覧の値をコピー
-function copyToDialog(row){
+//セレクトボックスに値をセット
+var children = $(row).children();
+$('#golist_id').val($(children)[0].textContent);
+$('#pref').val($(children)[1].textContent);
+$('#city').val($(children)[2].textContent);
+$('#genre').val($(children)[3].textContent);
+$('#move_means').val($(children)[4].textContent);
+
+//市区町村のセレクト
+ $('td').on('click', function() {
+    var index = $('#pref').prop('selectedIndex');
+    var cityOption = '',
+        cityValue,
+        cityLength,
+        cityData;
+    cityData = city[index]
+    cityValue = cityData;
+    cityLength = cityValue.length;
+    for (var i = 0; i < cityLength ; i++) {
+        if(cityValue[0] == '市区町村を選択してくたさい'){
+            cityOption += '<option value="" selected>' + cityValue[i] + '</option>';
+        } else {
+            cityOption += '<option value="' + cityValue[i] + '">' + cityValue[i] + '</option>';
+        }
+    }
+    $('#city').html(cityOption);
+    //市区町村をセット
     var children = $(row).children();
-    $('#golist_id').val($(children)[0].textContent);
-    $('#pref').val($(children)[1].textContent);
     $('#city').val($(children)[2].textContent);
-//    $('#city option:selected').val($(children)[2].textContent);
-    $('#genre').val($(children)[3].textContent);
-    $('#move_means').val($(children)[4].textContent);
+});
 }
 
