@@ -6,30 +6,29 @@
     <title>ゴーアウトマップ-マップ画面</title>
     <!-- JQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-    <!--  map.js読み込み  -->
-    <script th:src="@{/map.js}"></script>
     <!-- Geocoding API -->
-    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAbg39Llk-5ODPu6_oblgm05ieOtom0RJc"></script>
+    <!-- Places API ライブラリ -->
     <!-- Maps JavaScript API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbg39Llk-5ODPu6_oblgm05ieOtom0RJc&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbg39Llk-5ODPu6_oblgm05ieOtom0RJc&libraries=places&callback=initMap"></script>
     <!--  map.js読み込み  -->
     <script th:src="@{/map.js}"></script>
-<!--    &lt;!&ndash; Places API &ndash;&gt;-->
-<!--    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbg39Llk-5ODPu6_oblgm05ieOtom0RJc&libraries=places"></script>-->
+    <!--     list.css読み込み -->
+    <link th:href="@{/map.css}" rel="stylesheet">
 </head>
 
 <body>
 <div id="map" style="width:750px; height:500px; float: right"></div>
+<div id="panel"></div>
 
 <div class="map_list">
 
     <table border="1" style="border-collapse:collapse;" id="go">
         <tbody th:each="gomap : ${gomapList}">
-            <tr><th class="hidden">golist_ID</th><td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
-            <tr><th >都道府県</th>           <td th:text="${gomap.pref}" id="pref"></td></tr>
-            <tr><th id="city">市区町村</th>           <td th:text="${gomap.city}"></td></tr>
-            <tr><th>ジャンル</th>           <td th:text="${gomap.genre}"></td></tr>
-            <tr><th>移動手段</th>           <td th:text="${gomap.move_means}"></td></tr>
+            <tr><th class="hidden">golist_ID</th>   <td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
+            <tr><th>都道府県</th>   <td th:text="${gomap.pref}"></td></tr>
+            <tr><th>市区町村</th>   <td th:text="${gomap.city}"></td></tr>
+            <tr><th>ジャンル</th>   <td th:text="${gomap.genre}"></td></tr>
+            <tr><th>移動手段</th>   <td th:text="${gomap.move_means}"></td></tr>
         </tbody>
     </table>
 

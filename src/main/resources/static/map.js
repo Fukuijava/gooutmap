@@ -1,3 +1,11 @@
+let map; //地図
+let bounds; //地図の表示領域
+let infoWindow; //打たれたピンのウィンドウ
+let currentInfoWindow; //現在のウィンドウ
+let service; //サービス
+let infoPane; //パネルの情報
+
+
 function initMap() {
     //golistの要素を取得
     var gotable = document.getElementById("go");
@@ -10,27 +18,62 @@ function initMap() {
     var gotable = document.getElementById("home");
         var latitude = gotable.rows[1].cells[1].innerHTML;
         var longitude = gotable.rows[2].cells[1].innerHTML;
-        console.log(latitude,longitude);
+//        var home_la_lo = {
+//            lat: latitude,
+//            lng: longitude
+//        };
+        var home_la_lo = latitude +","+ longitude
+        console.log(home_la_lo);
+        var home = new google.maps.LatLng(home_la_lo);
+        console.log(home);
 
     //my_homeの要素をジオコード
     var geocoder = new google.maps.Geocoder();
+
+    bounds = new google.maps.LatLngBounds(); //マップの表示領域を生成
+    infoWindow = new google.maps.InfoWindow; //打たれたピンのウィンドウを生成
+    currentInfoWindow = infoWindow; //currentInfoWindowにウィンドウ生成の変数を入れる
+    infoPane = document.getElementById('panel'); //infoPaneにID="panel"の情報を入れる
+
+
     geocoder.geocode({ address: pref + city },
         function( results, status ){
             if( status == google.maps.GeocoderStatus.OK ){
-                var address = results[ 0 ].geometry.location
-                alert(address);
-                var la_lo = new google.maps.LatLng(address);
+                var pref_city = results[ 0 ].geometry.location
+                var pcAddress = new google.maps.LatLng(pref_city);
                 //マップ表示
-                var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 11,
-                center: la_lo
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 11,
+                    center: pcAddress
                 });
-                new google.maps.Marker({
-                    position: la_lo,
-                    map,
-                    title: "Hello World!",
-                });
-                window.initMap = initMap;
+                bounds.extend(pcAddress); //地図の表示領域を家にする
+
+                infoWindow.setPosition(home); //ウィンドウを家に置く
+                infoWindow.setContent('my_home'); //ウィンドウにコメントを入れる
+                infoWindow.open(map);//ウィンドウを地図に表示
+                map.setCenter(pcAddress);//地図の中心位置はposの座標 part2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//                new google.maps.Marker({
+//                    position: la_lo,
+//                    map,
+//                    title: "Hello World!",
+//                });
+//                window.initMap = initMap;
+
             }
             else{
                 alert( 'Faild：' + status );

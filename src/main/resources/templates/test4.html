@@ -139,7 +139,7 @@
     let map; //地図
     let bounds; //地図の表示領域
     let infoWindow; //打たれたピンのウィンドウ
-    let currentInfoWindow; //ウィンドウを作るやつ
+    let currentInfoWindow; //現在のウィンドウ
     let service; //サービス
     let infoPane; //パネルの情報
     function initMap() {
@@ -160,7 +160,7 @@
             lng: position.coords.longitude
           };
           /* 地図を表示する
-           地図の中心位置はposの座標
+           地図の中心位置はposの座標 part1
            拡大レベル15
 
            */
@@ -171,65 +171,75 @@
           bounds.extend(pos); //地図の表示領域を現在位置にする
 
           infoWindow.setPosition(pos); //ウィンドウに現在位置
-          infoWindow.setContent('Location found.'); //
-          infoWindow.open(map);
-          map.setCenter(pos);
+          infoWindow.setContent('Location found.'); //ウィンドウにコメントを入れる
+          infoWindow.open(map);//ウィンドウを地図に表示
+          map.setCenter(pos);//地図の中心位置はposの座標 part2
 
-          // Call Places Nearby Search on user's location
-          getNearbyPlaces(pos);
+
+          // 近くの場所に電話をかける ユーザーの位置情報を検索
+          getNearbyPlaces(pos);// PlacesAPIのNearby Searchを現在位置を入れてゲットする
         }, () => {
-          // Browser supports geolocation, but user has denied permission
+          // ブラウザは地理位置情報をサポートしていますが、ユーザーが許可を拒否しました　handleLocationErrorメソッドで処理
           handleLocationError(true, infoWindow);
         });
       } else {
-        // Browser doesn't support geolocation
+        // ブラウザは地理位置情報をサポートしていません　handleLocationErrorメソッドで処理
         handleLocationError(false, infoWindow);
       }
     }
 
-    // Handle a geolocation error
+    // 地理位置情報エラーを処理するメソッド　(ブラウザがGeolocationを使えるかの真偽値、ウィンドウ)
     function handleLocationError(browserHasGeolocation, infoWindow) {
-      // Set default location to Sydney, Australia
+      // デフォルトの場所をオーストラリアのシドニーに設定します
       pos = { lat: -33.856, lng: 151.215 };
       map = new google.maps.Map(document.getElementById('map'), {
         center: pos,
         zoom: 15
       });
 
-      // Display an InfoWindow at the map center
-      infoWindow.setPosition(pos);
+      // マップの中心に情報ウィンドウを表示する
+      infoWindow.setPosition(pos);//ウィンドウに現在位置 エラーが起きた版
+      //ウィンドウにコメントを入れる　エラーが起きた版
+      //三項演算子を使い、ブラウザがGeolocationを使えるかの真偽値でどっとのコメントを出すか決めてる
       infoWindow.setContent(browserHasGeolocation ?
         'Geolocation permissions denied. Using default location.' :
         'Error: Your browser doesn\'t support geolocation.');
-      infoWindow.open(map);
-      currentInfoWindow = infoWindow;
+      infoWindow.open(map);//ウィンドウを地図に表示　エラーが起きた版
+      currentInfoWindow = infoWindow;//currentInfoWindowにウィンドウ生成の変数を入れる　エラーが起きた版
 
-      // Call Places Nearby Search on the default location
+      // 近くの場所に電話をかける デフォルトの場所で検索する
       getNearbyPlaces(pos);
     }
 
-    // Perform a Places Nearby Search Request
-    function getNearbyPlaces(position) {
-      let request = {
-        location: position,
-<!--        rankBy: google.maps.places.RankBy.DISTANCE,-->
-        radius: 1000,
-<!--        keyword: 'sushi'-->
-        keyword: 'らーめん'
-      };
 
+
+    // 近くの場所の検索リクエストを実行する
+    function getNearbyPlaces(position) {
+      let request = {  //getNearbyPlacesにリクエストする項目
+        location: position,//渡された現在位置
+//「google.maps.places.RankBy.DISTANCE」を指定しました。これにより、場所検索に最も近い順に結果が並べ替えられます。
+//rankByとradiusはどっちか一つしか指定できない
+<!--        rankBy: google.maps.places.RankBy.DISTANCE,-->
+        radius: 5000,//中心から半径5000m
+//keywordとtypesはどっちか一つしか指定できない
+<!--        keyword: 'sushi'//キーワード’sushi’がどこかしらに入ってるやつを探す-->
+        types: ['cafe']
+      };
+//serviceをPlacesService(map)にして、そこでnearbySearchを使ってる
       service = new google.maps.places.PlacesService(map);
       service.nearbySearch(request, nearbyCallback);
     }
 
-    // Handle the results (up to 20) of the Nearby Search
+    // 近隣検索の結果 (最大 20) を処理します
+    //結果を返すやつ
+    //最大20回検索に引っかかったやつにマーカーを立ててる
     function nearbyCallback(results, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
-        createMarkers(results);
+        createMarkers(results);//メソッド呼び出し
       }
     }
 
-    // Set markers at the location of each place result
+    // 各場所の結果の位置にマーカーを設定します
     function createMarkers(places) {
       places.forEach(place => {
         let marker = new google.maps.Marker({
@@ -238,8 +248,9 @@
           title: place.name
         });
 
-        /* TODO: Step 4B: Add click listeners to the markers */
-        // Add click listener to each marker
+        /* クリックリスナーをマーカーに追加する */
+        // 各マーカーにクリックリスナーを追加する
+        //マーカーをクリックした時のイベント処理？
         google.maps.event.addListener(marker, 'click', () => {
           let request = {
             placeId: place.place_id,
@@ -247,24 +258,24 @@
               'website', 'photos']
           };
 
-          /* Only fetch the details of a place when the user clicks on a marker.
-           * If we fetch the details for all place results as soon as we get
-           * the search response, we will hit API rate limits. */
+          /* ユーザーがマーカーをクリックしたときにのみ、場所の詳細を取得します。
+            * 結果が得られ次第、すべての場所の詳細を取得する場合
+            * 検索応答によっては、API レート制限に達します。 */
           service.getDetails(request, (placeResult, status) => {
             showDetails(placeResult, marker, status)
           });
         });
 
-        // Adjust the map bounds to include the location of this marker
+        // このマーカーの位置を含むように地図の境界を調整します
         bounds.extend(place.geometry.location);
       });
-      /* Once all the markers have been placed, adjust the bounds of the map to
-       * show all the markers within the visible area. */
+      /* すべてのマーカーを配置したら、マップの境界を次のように調整します。
+        * 表示領域内のすべてのマーカーを表示します。 */
       map.fitBounds(bounds);
     }
 
-    /* TODO: Step 4C: Show place details in an info window */
-    // Builds an InfoWindow to display details above the marker
+    /* 情報ウィンドウに場所の詳細を表示する */
+    // マーカーの上に詳細を表示する情報ウィンドウを構築します。
     function showDetails(placeResult, marker, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         let placeInfowindow = new google.maps.InfoWindow();
@@ -281,21 +292,21 @@
       }
     }
 
-    /* TODO: Step 4D: Load place details in a sidebar */
-    // Displays place details in a sidebar
+    /* サイドバーに場所の詳細をロードする */
+    // サイドバーに場所の詳細を表示します
     function showPanel(placeResult) {
-      // If infoPane is already open, close it
+      // infoPane がすでに開いている場合は閉じます
       if (infoPane.classList.contains("open")) {
         infoPane.classList.remove("open");
       }
 
-      // Clear the previous details
+      // 以前の詳細をクリアします
       while (infoPane.lastChild) {
         infoPane.removeChild(infoPane.lastChild);
       }
 
-      /* TODO: Step 4E: Display a Place Photo with the Place Details */
-      // Add the primary photo, if there is one
+      /* 場所の写真と場所の詳細を表示する */
+      // メインの写真がある場合は追加します
       if (placeResult.photos) {
         let firstPhoto = placeResult.photos[0];
         let photo = document.createElement('img');
@@ -304,7 +315,7 @@
         infoPane.appendChild(photo);
       }
 
-      // Add place details with text formatting
+      //テキスト形式を使用して場所の名前、評価、住所、公式URLを追加する
       let name = document.createElement('h1');
       name.classList.add('place');
       name.textContent = placeResult.name;
@@ -330,7 +341,7 @@
         infoPane.appendChild(websitePara);
       }
 
-      // Open the infoPane
+      // infoPaneを開く
       infoPane.classList.add("open");
     }
   </script>
