@@ -1,5 +1,5 @@
 #panel {
-    height: 250px;
+    height: 350px;
     width: null;
     position: absolute;
     bottom: 0;
@@ -12,7 +12,7 @@
     transition: all .2s ease-out;
 }
 .open {
-    width: 250px;
+    width: 400px;
 }
 .hero {
 width: 100%;

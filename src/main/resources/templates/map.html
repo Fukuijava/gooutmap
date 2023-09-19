@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<div id="map" style="width:750px; height:500px; float: right"></div>
+<div id="map" style="width:900px; height:600px; float: right"></div>
 <div id="panel"></div>
 
 <div class="map_list">
@@ -27,7 +27,7 @@
             <tr><th class="hidden">golist_ID</th>   <td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
             <tr><th>都道府県</th>   <td th:text="${gomap.pref}"></td></tr>
             <tr><th>市区町村</th>   <td th:text="${gomap.city}"></td></tr>
-            <tr><th>ジャンル</th>   <td th:text="${gomap.genre}"></td></tr>
+            <tr><th>ジャンル</th>   <td th:text="${gomap.genre}" ></td></tr>
             <tr><th>移動手段</th>   <td th:text="${gomap.move_means}"></td></tr>
         </tbody>
     </table>
