@@ -2,10 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <a href="/gomap/list">一覧へ</a>
+    <a id="a_tag" href="/gomap/list">一覧へ</a>
+    <button id="jButton" data-bs-toggle="modal" data-bs-target="#map_list" class="btn btn-info">マップの情報</button>
+    <button id="sButton" data-bs-toggle="modal" data-bs-target="#sModal" class="btn btn-info">場所の詳細</button>
     <title>ゴーアウトマップ-マップ画面</title>
     <!-- JQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <!-- Bootstrap(head記述) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- Geocoding API -->
     <!-- Places API ライブラリ -->
     <!-- Maps JavaScript API -->
@@ -17,31 +21,58 @@
 </head>
 
 <body>
-<div id="map" style="width:900px; height:600px; float: right"></div>
-<div id="panel"></div>
+<!--地図-->
+<div id="map"></div>
+<!--ルート-->
 <siv id="sidebar"></siv>
 
-<div class="map_list">
+<!--マップの情報のモーダルウィンドウ-->
+<div class="modal fade" id="sModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>場所の詳細</h2>
+            </div>
+            <div class="modal-body" id="panel">
 
-    <table border="1" style="border-collapse:collapse;" id="go">
-        <tbody th:each="gomap : ${gomapList}">
-            <tr><th class="hidden">golist_ID</th>   <td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
-            <tr><th>都道府県</th>   <td th:text="${gomap.pref}"></td></tr>
-            <tr><th>市区町村</th>   <td th:text="${gomap.city}"></td></tr>
-            <tr><th>ジャンル</th>   <td th:text="${gomap.genre}" ></td></tr>
-            <tr><th>移動手段</th>   <td th:text="${gomap.move_means}"></td></tr>
-        </tbody>
-    </table>
-
-    <table border="1" style="border-collapse:collapse;" id="home">
-        <tbody th:each="my_home : ${my_home_List}">
-        <tr><th>myhome_ID</th>  <td th:text="${my_home.my_home_id}"></td></tr>
-        <tr><th>緯度</th> <td th:text="${my_home.latitude}"></td></tr>
-        <tr><th>経度</th> <td th:text="${my_home.longitude}"></td></tr>
-        </tbody>
-    </table>
-
+            </div>
+        </div>
+    </div>
 </div>
 
+<!--マップの情報のモーダルウィンドウ-->
+<div class="modal fade" id="map_list" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>マップの情報</h2>
+            </div>
+            <div class="modal-body">
+                <table id="go">
+                    <tbody th:each="gomap : ${gomapList}">
+                    <tr><th class="hidden">golist_ID</th>   <td th:text="${gomap.golist_id}" class="hidden" ></td></tr>
+                    <tr><th>都道府県</th>   <td th:text="${gomap.pref}"></td></tr>
+                    <tr><th>市区町村</th>   <td th:text="${gomap.city}"></td></tr>
+                    <tr><th>ジャンル</th>   <td th:text="${gomap.genre}" ></td></tr>
+                    <tr><th>移動手段</th>   <td th:text="${gomap.move_means}"></td></tr>
+                    </tbody>
+                </table>
+                <hr>
+                <table id="home">
+                    <tbody th:each="my_home : ${my_home_List}">
+                    <tr><th>myhome_ID</th>  <td th:text="${my_home.my_home_id}"></td></tr>
+                    <tr><th>緯度</th> <td th:text="${my_home.latitude}"></td></tr>
+                    <tr><th>経度</th> <td th:text="${my_home.longitude}"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap(body記述) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
 </body>
 </html>

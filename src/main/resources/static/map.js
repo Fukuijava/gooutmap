@@ -4,31 +4,30 @@ var infoWindow; //打たれたピンのウィンドウ
 var currentInfoWindow; //現在のウィンドウ
 var service; //サービス
 var infoPane; //パネルの情報
-
+var infoRoute;//ルートの情報
 var genre;//ジャンル
 var home;//家
 var move_means;//移動手段
-var pla;
 
 function initMap() {
     //golistの要素を取得
     var gotable = document.getElementById("go");
-        var pref = gotable.rows[1].cells[1].innerHTML;
-        var city = gotable.rows[2].cells[1].innerHTML;
-        genre = gotable.rows[3].cells[1].innerHTML;
-        move_means = gotable.rows[4].cells[1].innerHTML;
+    var pref = gotable.rows[1].cells[1].innerHTML;
+    var city = gotable.rows[2].cells[1].innerHTML;
+    genre = gotable.rows[3].cells[1].innerHTML;
+    move_means = gotable.rows[4].cells[1].innerHTML;
         console.log(pref,city,genre,move_means);
 
     //my_homeの要素を取得
     var hometable = document.getElementById("home");
-        var latitude_Str = hometable.rows[1].cells[1].innerHTML;
-        var longitude_Str = hometable.rows[2].cells[1].innerHTML;
-        var latitude_Flo = parseFloat(latitude_Str);
-        var longitude_Flo = parseFloat(longitude_Str);
-        home = {
-            lat: latitude_Flo,
-            lng: longitude_Flo
-        };
+    var latitude_Str = hometable.rows[1].cells[1].innerHTML;
+    var longitude_Str = hometable.rows[2].cells[1].innerHTML;
+    var latitude_Flo = parseFloat(latitude_Str);
+    var longitude_Flo = parseFloat(longitude_Str);
+    home = {
+        lat: latitude_Flo,
+        lng: longitude_Flo
+    };
         console.log(home);
 
     //my_homeの要素をジオコード
@@ -38,33 +37,32 @@ function initMap() {
     infoWindow = new google.maps.InfoWindow; //打たれたピンのウィンドウを生成
     currentInfoWindow = infoWindow; //currentInfoWindowにウィンドウ生成の変数を入れる
     infoPane = document.getElementById('panel'); //infoPaneにID="panel"の情報を入れる
+    infoRoute = document.getElementById('sidebar');//infoRouteにID="panel"の情報を入れる
 
 
-    geocoder.geocode({ address: pref + city },
-        function( results, status ){
-            if( status == google.maps.GeocoderStatus.OK ){
-                var pref_city = results[ 0 ].geometry.location
-                var pcAddress = new google.maps.LatLng(pref_city);
-                //マップ表示
-                map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 11,
-                    center: pcAddress
-//                    disableDefaultUI: true　//デフォルトのコントローラー（人形とか＋。ーボタン）を非表示にする。
-                });
+    geocoder.geocode({ address: pref + city },function( results, status ){
+        if( status == google.maps.GeocoderStatus.OK ){
+            var pref_city = results[ 0 ].geometry.location
+            var pcAddress = new google.maps.LatLng(pref_city);
+            //マップ表示
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 11,
+                center: pcAddress,
+                disableDefaultUI: true　//デフォルトのコントローラー（人形とか＋。ーボタン）を非表示にする。
+            });
 
-                bounds.extend(pcAddress); //地図の表示領域を指定した県・市にする
-                infoWindow.setPosition(home); //ウィンドウを家に置く
-                infoWindow.setContent('MY_HOME'); //ウィンドウにコメントを入れる
-                infoWindow.open(map);//ウィンドウを地図に表示
-                getNearbyPlaces(pcAddress);//getNearbyPlacesメソッドに都道府県と市区町村の座標を送る
+            bounds.extend(pcAddress); //地図の表示領域を指定した県・市にする
+            infoWindow.setPosition(home); //ウィンドウを家に置く
+            infoWindow.setContent('MY_HOME'); //ウィンドウにコメントを入れる
+            infoWindow.open(map);//ウィンドウを地図に表示
+            getNearbyPlaces(pcAddress);//getNearbyPlacesメソッドに都道府県と市区町村の座標を送る
 
-                new google.maps.Marker({ position: home, map });
-            }
-            else{
-                alert( 'Faild：' + status );
-            }
+            new google.maps.Marker({ position: home, map });
         }
-    );
+        else{
+            alert( 'Faild：' + status );
+        }
+    });
 }
 
 // 近くの場所の検索リクエストを実行する
@@ -79,10 +77,10 @@ function initMap() {
 function getNearbyPlaces(pcAddress) {
     let request = {
         location: pcAddress,
-//        rankBy: google.maps.places.RankBy.DISTANCE,
+        //        rankBy: google.maps.places.RankBy.DISTANCE,
         radius: 5000,
         keyword: genre
-//        types: ['cafe']
+        //        types: ['cafe']
     };
     //変数serviceを＃mapのPlaces_apiを使える変数にして、そこでnearbySearchを使ってる
     service = new google.maps.places.PlacesService(map);
@@ -100,33 +98,32 @@ function nearbyCallback(results, status) {
 // 各場所の結果の位置にマーカーを設定します
 function createMarkers(places) {
     places.forEach(place => {
-    let marker = new google.maps.Marker({
-    position: place.geometry.location,
-    map: map,
-    title: place.name
-});
-
-    /* クリックリスナーをマーカーに追加する */
-    // 各マーカーにクリックリスナーを追加する
-    //マーカーをクリックした時のイベント処理？
-    google.maps.event.addListener(marker, 'click', () => {
-        let request = {
-            placeId: place.place_id,
-            fields: ['name', 'formatted_address', 'geometry', 'rating','website', 'photos']
-        };
-
-        /* ユーザーがマーカーをクリックしたときにのみ、場所の詳細を取得します。
-        * 結果が得られ次第、すべての場所の詳細を取得する場合
-        * 検索応答によっては、API レート制限に達します。 */
-        service.getDetails(request, (placeResult, status) => {
-            showDetails(placeResult, marker, status),
-            showRoutes(placeResult)
+        let marker = new google.maps.Marker({
+            position: place.geometry.location,
+            map: map,
+            title: place.name
         });
-    });
 
-    // このマーカーの位置を含むように地図の境界を調整します
-    bounds.extend(place.geometry.location);
-    bounds.extend(home);
+        /* クリックリスナーをマーカーに追加する */
+        // 各マーカーにクリックリスナーを追加する
+        //マーカーをクリックした時のイベント処理？
+        google.maps.event.addListener(marker, 'click', () => {
+            let request = {
+                placeId: place.place_id,
+                fields: ['name', 'formatted_address', 'geometry', 'rating','website', 'photos']
+            };
+
+            /* ユーザーがマーカーをクリックしたときにのみ、場所の詳細を取得します。
+            * 結果が得られ次第、すべての場所の詳細を取得する場合
+            * 検索応答によっては、API レート制限に達します。 */
+            service.getDetails(request, (placeResult, status) => {
+                showDetails(placeResult, marker, status)
+            });
+        });
+
+        // このマーカーの位置を含むように地図の境界を調整します
+        bounds.extend(place.geometry.location);
+        bounds.extend(home);
     });
     /* すべてのマーカーを配置したら、マップの境界を次のように調整します。
     * 表示領域内のすべてのマーカーを表示します。 */
@@ -141,7 +138,8 @@ function showDetails(placeResult, marker, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         let placeInfowindow = new google.maps.InfoWindow();
         let rating = "None";
-        if (placeResult.rating)     rating = placeResult.rating;
+        if (placeResult.rating)
+            rating = placeResult.rating;
         placeInfowindow.setContent
         ('<div><strong>' + placeResult.name +'</strong><br>' + 'Rating: ' + rating + '</div>');
         placeInfowindow.open(marker.map, marker);
@@ -156,16 +154,10 @@ function showDetails(placeResult, marker, status) {
 /* サイドバーに場所の詳細をロードする */
 // サイドバーに場所の詳細を表示します
 function showPanel(placeResult) {
-    // infoPane がすでに開いている場合は閉じます
-    if (infoPane.classList.contains("open")) {
-        infoPane.classList.remove("open");
-    }
-
     // 以前の詳細をクリアします
     while (infoPane.lastChild) {
         infoPane.removeChild(infoPane.lastChild);
     }
-
     /* 場所の写真と場所の詳細を表示する */
     // メインの写真がある場合は追加します
     if (placeResult.photos) {
@@ -201,69 +193,41 @@ function showPanel(placeResult) {
         websitePara.appendChild(websiteLink);
         infoPane.appendChild(websitePara);
     }
-
     // infoPaneを開く
     infoPane.classList.add("open");
+    document.getElementById("panel").addEventListener("change", showRoutes(placeResult));//showRoutesメソッドへ
 }
 
 function showRoutes(placeResult){
-    console.log(placeResult.geometry.location);
-var vv;
-var zz;
-        if(move_means == '車'){
-            move_means = google.maps.DirectionsTravelMode.DRIVING;
-        }else{
-            move_means = google.maps.DirectionsTravelMode.WALKING;
-        }
+    // 以前の詳細をクリアします
+    while (infoRoute.lastChild) {
+        infoRoute.removeChild(infoRoute.lastChild);
+    }
 
-let rendererOptions = {
-    map: map, // 描画先の地図
-    draggable: true, // ドラッグ可
-    preserveViewport: true // centerの座標、ズームレベルで表示
-    };
-    let directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-    const directionsRenderer = new google.maps.DirectionsRenderer();
+    let directionsRenderer = new google.maps.DirectionsRenderer();
     let directionsService = new google.maps.DirectionsService();
-    directionsDisplay.setMap(map);
 
+    if(move_means == '車'){
+        move_means = google.maps.DirectionsTravelMode.DRIVING;
+    }else if(move_means != google.maps.DirectionsTravelMode.DRIVING){
+        move_means = google.maps.DirectionsTravelMode.WALKING;
+    }
+    directionsRenderer.setMap(map);
     directionsRenderer.setPanel(document.getElementById("sidebar"));
 
-    calculateAndDisplayRoute(directionsService, directionsRenderer);
+    calculateAndDisplayRoute(directionsService, directionsRenderer);//calculateAndDisplayRouteメソッド呼び出し
 
-function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-    directionsService
-    .route({
-      origin: new google.maps.LatLng(home), // スタート地点
-      destination: new google.maps.LatLng(placeResult.geometry.location), // ゴール地点
-      travelMode: move_means// 移動手段
-    })
-.then((response) => {
-      directionsRenderer.setDirections(response);
-    })
-    .catch((e) => window.alert("Directions request failed due to " + status));
+    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        directionsService
+        .route({
+            origin: new google.maps.LatLng(home), // スタート地点
+            destination: new google.maps.LatLng(placeResult.geometry.location), // ゴール地点
+            travelMode: move_means// 移動手段
+        })
+        .then((response) => {
+            directionsRenderer.setDirections(response);
+        })
+        .catch((e) => window.alert("Directions request failed due to " + status));
+    }
+    window.initMap = initMap;
 }
-
-//window.initMap = initMap;
-
-}
-
-
-//    let request = {
-//        origin: new google.maps.LatLng(home), // スタート地点
-//        destination: new google.maps.LatLng(placeResult.geometry.location), // ゴール地点
-//        travelMode: move_means// 移動手段
-//    };
-//    directionsService.route(request, function(response,status) {
-//        if (status === google.maps.DirectionsStatus.OK) {
-//            new google.maps.DirectionsRenderer({
-//                map: map,
-//                directions: response,
-//                distance: response,
-//                duration: response
-//            });
-//            setTimeout(function() {
-//                map.setZoom(16); // ルート表示後にズーム率を変更
-//            });
-//        }
-//    });
-//}

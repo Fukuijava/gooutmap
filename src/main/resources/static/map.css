@@ -1,16 +1,36 @@
-#panel {
-    height: 350px;
-    width: null;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border: 2px solid #000000;
-    background-color: white;
-    position: fixed;
-    z-index: 1;
-    overflow-x: hidden;
-    transition: all .2s ease-out;
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+#map {
+    flex-basis: 0;
+    flex-grow: 4;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+}
+#a_tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+}
+#jButton {
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    z-index: 1;
+}
+#sButton {
+    position: absolute;
+    top: 10px;
+    left: 170px;
+    z-index: 1;
+}
+
 .open {
     width: 400px;
 }
@@ -22,19 +42,12 @@
 }
 
 #sidebar {
-    flex-basis: 15rem;
-    flex-grow: 1;
-    padding: 1rem;
+    border: 2px solid #000000;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     max-width: 30rem;
     height: 100%;
-    box-sizing: border-box;
     overflow: auto;
-}
-
-#sidebar {
-    flex: 0 1 auto;
-    padding: 0;
-}
-#sidebar > div {
-    padding: 0.5rem;
 }
