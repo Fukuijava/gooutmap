@@ -12,13 +12,14 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbg39Llk-5ODPu6_oblgm05ieOtom0RJc&libraries=places&callback=initMap"></script>
     <!--  map.js読み込み  -->
     <script th:src="@{/map.js}"></script>
-    <!--     list.css読み込み -->
+    <!--     map.css読み込み -->
     <link th:href="@{/map.css}" rel="stylesheet">
 </head>
 
 <body>
 <div id="map" style="width:900px; height:600px; float: right"></div>
 <div id="panel"></div>
+<siv id="sidebar"></siv>
 
 <div class="map_list">
 

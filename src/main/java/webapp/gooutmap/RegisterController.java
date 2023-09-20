@@ -60,9 +60,9 @@ public class RegisterController {
         return "register";
     }
 
-    @GetMapping("/gomap/test3")
-    public String test3() {
-        return "test3";
+    @GetMapping("/gomap/test")
+    public String test() {
+        return "test";
     }
     @GetMapping("/gomap/test4")
     public String test4() {

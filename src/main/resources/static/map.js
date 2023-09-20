@@ -49,6 +49,7 @@ function initMap() {
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 11,
                     center: pcAddress
+//                    disableDefaultUI: true　//デフォルトのコントローラー（人形とか＋。ーボタン）を非表示にする。
                 });
 
                 bounds.extend(pcAddress); //地図の表示領域を指定した県・市にする
@@ -78,8 +79,8 @@ function initMap() {
 function getNearbyPlaces(pcAddress) {
     let request = {
         location: pcAddress,
-        rankBy: google.maps.places.RankBy.DISTANCE,
-//        radius: 5000,
+//        rankBy: google.maps.places.RankBy.DISTANCE,
+        radius: 5000,
         keyword: genre
 //        types: ['cafe']
     };
@@ -207,7 +208,8 @@ function showPanel(placeResult) {
 
 function showRoutes(placeResult){
     console.log(placeResult.geometry.location);
-
+var vv;
+var zz;
         if(move_means == '車'){
             move_means = google.maps.DirectionsTravelMode.DRIVING;
         }else{
@@ -220,22 +222,48 @@ let rendererOptions = {
     preserveViewport: true // centerの座標、ズームレベルで表示
     };
     let directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+    const directionsRenderer = new google.maps.DirectionsRenderer();
     let directionsService = new google.maps.DirectionsService();
     directionsDisplay.setMap(map);
-    let request = {
-        origin: new google.maps.LatLng(home), // スタート地点
-        destination: new google.maps.LatLng(placeResult.geometry.location), // ゴール地点
-        travelMode: move_means// 移動手段
-    };
-    directionsService.route(request, function(response,status) {
-        if (status === google.maps.DirectionsStatus.OK) {
-            new google.maps.DirectionsRenderer({
-                map: map,
-                directions: response
-            });
-            setTimeout(function() {
-                map.setZoom(16); // ルート表示後にズーム率を変更
-            });
-        }
-    });
+
+    directionsRenderer.setPanel(document.getElementById("sidebar"));
+
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
+
+function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+    directionsService
+    .route({
+      origin: new google.maps.LatLng(home), // スタート地点
+      destination: new google.maps.LatLng(placeResult.geometry.location), // ゴール地点
+      travelMode: move_means// 移動手段
+    })
+.then((response) => {
+      directionsRenderer.setDirections(response);
+    })
+    .catch((e) => window.alert("Directions request failed due to " + status));
 }
+
+//window.initMap = initMap;
+
+}
+
+
+//    let request = {
+//        origin: new google.maps.LatLng(home), // スタート地点
+//        destination: new google.maps.LatLng(placeResult.geometry.location), // ゴール地点
+//        travelMode: move_means// 移動手段
+//    };
+//    directionsService.route(request, function(response,status) {
+//        if (status === google.maps.DirectionsStatus.OK) {
+//            new google.maps.DirectionsRenderer({
+//                map: map,
+//                directions: response,
+//                distance: response,
+//                duration: response
+//            });
+//            setTimeout(function() {
+//                map.setZoom(16); // ルート表示後にズーム率を変更
+//            });
+//        }
+//    });
+//}

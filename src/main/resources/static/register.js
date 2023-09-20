@@ -81,7 +81,7 @@ var genre = [
 ['宿泊施設',['宿泊施設']]
 ];
 
-//都道府県のセレクト
+//都道府県と市区町村を連動させた<option>
 $(function() {
     var prefOption = '',
         prefValue,
@@ -97,9 +97,27 @@ $(function() {
         }
         $('#pref').html(prefOption);
     }
+    $('#pref').on('change', function() {
+        var index = $(this).prop('selectedIndex');
+        var selected = $(this).val();
+        var cityOption = '';
+        if (selected != '') {
+            $.each(pref[index][1], function() {
+                if (this == '市区町村を選択してくたさい') {
+                    cityOption += '<option value="">' + this + '</option>';
+                } else {
+                    cityOption += '<option value="' + this + '">' + this + '</option>';
+                }
+            });
+            $('#city').html(cityOption);
+        }else {
+            $('#city').html('<option value="">市区町村を選択してくたさい</option>');
+        }
+    });
 });
 
-function copyToDialog(row){
+//ジャンルの<option>
+$(function() {
     //ジャンルのセレクト
     var genreOption = '',
         genreName,
@@ -117,36 +135,4 @@ function copyToDialog(row){
         }
         $('#genre').html(genreOption);
     }
-
-    //セレクトボックスに値をセット
-    var children = $(row).children();
-        $('#golist_id').val($(children)[0].textContent);
-        $('#pref').val($(children)[1].textContent);
-        $('#city').val($(children)[2].textContent);
-        $('#genre').val($(children)[3].textContent);
-        $('#move_means').val($(children)[4].textContent);
-
-    //市区町村のセレクト
-     $('td').on('click', function() {
-        var index = $('#pref').prop('selectedIndex');
-        var cityOption = '',
-            cityValue,
-            cityLength,
-            cityData;
-            cityData = pref[index][1];
-            cityValue = cityData;
-            cityLength = cityValue.length;
-        for (var i = 0; i < cityLength ; i++) {
-            if(cityValue[0] == '市区町村を選択してくたさい'){
-                cityOption += '<option value="" selected>' + cityValue[i] + '</option>';
-            } else {
-                cityOption += '<option value="' + cityValue[i] + '">' + cityValue[i] + '</option>';
-            }
-        }
-        $('#city').html(cityOption);
-        //市区町村をセット
-        var children = $(row).children();
-            $('#city').val($(children)[2].textContent);
-    });
-}
-
+});
