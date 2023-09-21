@@ -97,6 +97,23 @@ $(function() {
         }
         $('#pref').html(prefOption);
     }
+    $('#pref').on('change', function() {
+        var index = $(this).prop('selectedIndex');
+        var selected = $(this).val();
+        var cityOption = '';
+        if (selected != '') {
+        $.each(pref[index][1], function() {
+            if (this == '市区町村を選択してくたさい') {
+                cityOption += '<option value="">' + this + '</option>';
+            } else {
+                cityOption += '<option value="' + this + '">' + this + '</option>';
+            }
+        });
+        $('#city').html(cityOption);
+        }else {
+            $('#city').html('<option value="">市区町村を選択してくたさい</option>');
+        }
+    });
 });
 
 function copyToDialog(row){
