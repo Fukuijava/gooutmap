@@ -6,11 +6,21 @@ body {
 }
 
 #map {
-    flex-basis: 0;
-    flex-grow: 4;
     height: 100%;
+    width: auto;
     position: relative;
     z-index: 0;
+}
+#sidebar {
+    border: 2px solid #000000;
+    background-color: white;
+    max-width: 30%;
+    height: 100%;
+    overflow: auto;
+     position: absolute;
+     right: 0;
+     bottom: 0;
+     z-index: 1;
 }
 #a_tag {
     position: absolute;
@@ -30,24 +40,9 @@ body {
     left: 170px;
     z-index: 1;
 }
-
-.open {
-    width: 400px;
-}
 .hero {
     width: 100%;
     height: auto;
     max-height: 166px;
     display: block;
-}
-
-#sidebar {
-    border: 2px solid #000000;
-    background-color: white;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    max-width: 30rem;
-    height: 100%;
-    overflow: auto;
 }

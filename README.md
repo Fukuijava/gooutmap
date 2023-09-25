@@ -5,5 +5,8 @@
 *
 * もし、行きたい場所が一つでも同じ条件の他の場所も一緒に見られるから新しい発見があるかも！？
 *
+*
+*
+* mySQLにgooutmapdbテーブルを作成して起動してください。
 * 登録画面 URL http://localhost:8080/gomap/register
 * 一覧画面 URL http://localhost:8080/gomap/list

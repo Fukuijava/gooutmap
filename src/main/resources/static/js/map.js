@@ -8,6 +8,9 @@ var infoRoute;//ルートの情報
 var genre;//ジャンル
 var home;//家
 var move_means;//移動手段
+var route;
+var directionsRenderer;
+var directionsService;
 
 function initMap() {
     //golistの要素を取得
@@ -19,16 +22,33 @@ function initMap() {
         console.log(pref,city,genre,move_means);
 
     //my_homeの要素を取得
-    var hometable = document.getElementById("home");
-    var latitude_Str = hometable.rows[1].cells[1].innerHTML;
-    var longitude_Str = hometable.rows[2].cells[1].innerHTML;
-    var latitude_Flo = parseFloat(latitude_Str);
-    var longitude_Flo = parseFloat(longitude_Str);
-    home = {
-        lat: latitude_Flo,
-        lng: longitude_Flo
-    };
-        console.log(home);
+    //家の座標を入れていたらtrue、入れてなかったらfalseの処理
+    if(document.getElementById('coordinate') != null){
+        var hometable = document.getElementById("home");
+        var coordinate = hometable.rows[1].cells[1].innerHTML;
+        var coordinate_Str = coordinate.split(',');
+        var lat_Flo = parseFloat(coordinate_Str[0]);
+        var lng_Flo = parseFloat(coordinate_Str[1]);
+        home = {
+            lat: lat_Flo,
+            lng: lng_Flo
+        };
+            console.log(home);
+    }else{
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                home = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                console.log(home);
+            }, () => {
+                handleLocationError(true, infoWindow);
+            });
+        } else {
+            handleLocationError(false, infoWindow);
+        }
+    }
 
     //my_homeの要素をジオコード
     var geocoder = new google.maps.Geocoder();
@@ -37,8 +57,9 @@ function initMap() {
     infoWindow = new google.maps.InfoWindow; //打たれたピンのウィンドウを生成
     currentInfoWindow = infoWindow; //currentInfoWindowにウィンドウ生成の変数を入れる
     infoPane = document.getElementById('panel'); //infoPaneにID="panel"の情報を入れる
-    infoRoute = document.getElementById('sidebar');//infoRouteにID="panel"の情報を入れる
-
+    infoRoute = document.getElementById('sidebar');//infoRouteにID="sidebar"の情報を入れる
+    directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsService = new google.maps.DirectionsService();
 
     geocoder.geocode({ address: pref + city },function( results, status ){
         if( status == google.maps.GeocoderStatus.OK ){
@@ -64,6 +85,9 @@ function initMap() {
         }
     });
 }
+function handleLocationError(browserHasGeolocation, infoWindow) {
+    home = {lat: 35.68164765431072, lng: 139.7670550726925};
+}
 
 // 近くの場所の検索リクエストを実行する
 //getNearbyPlacesにリクエストする項目
@@ -77,10 +101,10 @@ function initMap() {
 function getNearbyPlaces(pcAddress) {
     let request = {
         location: pcAddress,
-        //        rankBy: google.maps.places.RankBy.DISTANCE,
-        radius: 5000,
+         rankBy: google.maps.places.RankBy.DISTANCE,
+//        radius: 5000,
         keyword: genre
-        //        types: ['cafe']
+//        types: ['cafe']
     };
     //変数serviceを＃mapのPlaces_apiを使える変数にして、そこでnearbySearchを使ってる
     service = new google.maps.places.PlacesService(map);
@@ -117,7 +141,7 @@ function createMarkers(places) {
             * 結果が得られ次第、すべての場所の詳細を取得する場合
             * 検索応答によっては、API レート制限に達します。 */
             service.getDetails(request, (placeResult, status) => {
-                showDetails(placeResult, marker, status)
+            showDetails(placeResult, marker, status)
             });
         });
 
@@ -194,7 +218,7 @@ function showPanel(placeResult) {
         infoPane.appendChild(websitePara);
     }
     // infoPaneを開く
-    infoPane.classList.add("open");
+    document.getElementById("map").style.width = "70%";
     document.getElementById("panel").addEventListener("change", showRoutes(placeResult));//showRoutesメソッドへ
 }
 
@@ -203,9 +227,6 @@ function showRoutes(placeResult){
     while (infoRoute.lastChild) {
         infoRoute.removeChild(infoRoute.lastChild);
     }
-
-    let directionsRenderer = new google.maps.DirectionsRenderer();
-    let directionsService = new google.maps.DirectionsService();
 
     if(move_means == '車'){
         move_means = google.maps.DirectionsTravelMode.DRIVING;

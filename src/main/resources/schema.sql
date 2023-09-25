@@ -7,6 +7,5 @@ CREATE TABLE IF NOT EXISTS golist(
 );
 CREATE TABLE IF NOT EXISTS my_home(
     my_home_id varchar(8) primary key,
-    latitude varchar(64),
-    longitude varchar(64)
+    coordinate varchar(128)
 );

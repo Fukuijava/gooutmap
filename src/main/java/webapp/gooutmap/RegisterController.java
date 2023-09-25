@@ -18,7 +18,7 @@ public class RegisterController {
             String golist_id, String pref, String city, String genre, String move_means){
     }
     public record MyHomeItem(
-            String my_home_id, String latitude, String longitude){
+            String my_home_id, String coordinate){
     }
 
     private List<GoListItem> goListItems = new ArrayList<>();
@@ -49,23 +49,19 @@ public class RegisterController {
     }
 
     @GetMapping("/gomap/set_myhome")
-    public String add_item(@RequestParam("latitude") String latitude,
-                           @RequestParam("longitude") String longitude,
-                           Model model) {
+    public String set_myhome(@RequestParam("coordinate") String coordinate,
+                            Model model) {
         String my_home_id = UUID.randomUUID().toString().substring(0, 8);
-        MyHomeItem item = new MyHomeItem(my_home_id, latitude, longitude);
+        MyHomeItem item = new MyHomeItem(my_home_id, coordinate);
         dao.set_myhome(item);
         List<MyHomeItem> my_home_Items = dao.myhome();
         model.addAttribute("my_home_List", my_home_Items);
         return "register";
     }
 
-    @GetMapping("/gomap/test")
-    public String test() {
-        return "test";
-    }
-    @GetMapping("/gomap/test4")
-    public String test4() {
-        return "test4";
+    @GetMapping("/gomap/delete_myhome")
+    String delete_myhome(@RequestParam("my_home_id") String my_home_id){
+        this.dao.delete_myhome(my_home_id);
+        return "register";
     }
 }

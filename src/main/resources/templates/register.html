@@ -44,14 +44,10 @@
 <div class="myhome_register_form">
     <h2>家の座標登録</h2>
     <form action="/gomap/set_myhome" method="get" id="myhome_form">
-        <label>緯度</label>
-        <input name="latitude"  id="latitude" value="" type="text" />
+        <label>座標</label>
+        <input name="coordinate"  id="coordinate" value="" type="text" />
         <br>
-        <label>経度</label>
-        <input name="longitude" id="longitude" value="" type="text" />
-        <br>
-        （一度登録された座標は保存されます。）
-        <br>
+        <p>(未登録の場合は現在位置が使用されます)</p>
         <input type="submit" value="登録" id="return_myhome"/>
     </form>
 </div>
@@ -60,9 +56,14 @@
     <br>
     <p>現在登録されている座標</p>
     <tbody th:each="my_home : ${my_home_List}">
-    <td th:text="${my_home.latitude}"></td>
+    <td th:text="${my_home.coordinate}"></td>
     <br>
-    <td th:text="${my_home.longitude}"></td>
+    <br>
+    <br>
+    <form action="/gomap/delete_myhome">
+        <button type="submit" >家の座標を削除する</button>
+        <input type="hidden" name="my_home_id" th:value="${my_home.my_home_id}" />
+    </form>
     </tbody>
 </div>
 </body>

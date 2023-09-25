@@ -68,8 +68,7 @@ public class GoListDao {
         List<RegisterController.MyHomeItem> list = result.stream().map(
                 (Map<String, Object> row) -> new RegisterController.MyHomeItem(
                         row.get("my_home_id").toString(),
-                        row.get("latitude").toString(),
-                        row.get("longitude").toString()
+                        row.get("coordinate").toString()
                 )).toList();
         return list;
     }
@@ -86,6 +85,11 @@ public class GoListDao {
                         (String) row.get("move_means")
                 )).toList();
         return goItems;
+    }
+
+    public int delete_myhome(String my_home_id) {
+        int number = jdbcTemplate.update("DELETE FROM my_home WHERE my_home_id = ?", my_home_id);
+        return number;
     }
 }
 

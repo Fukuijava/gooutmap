@@ -21,11 +21,11 @@
 </head>
 
 <body>
+<!--ルート-->
+<div id="sidebar"></div>
 <!--地図-->
 <div id="map"></div>
-<!--ルート-->
-<siv id="sidebar"></siv>
-
+<div id="dummy"></div>
 <!--マップの情報のモーダルウィンドウ-->
 <div class="modal fade" id="sModal">
     <div class="modal-dialog">
@@ -61,8 +61,7 @@
                 <table id="home">
                     <tbody th:each="my_home : ${my_home_List}">
                     <tr><th>myhome_ID</th>  <td th:text="${my_home.my_home_id}"></td></tr>
-                    <tr><th>緯度</th> <td th:text="${my_home.latitude}"></td></tr>
-                    <tr><th>経度</th> <td th:text="${my_home.longitude}"></td></tr>
+                    <tr id="coordinate"><th>座標</th> <td th:text="${my_home.coordinate}" th:value="${my_home.coordinate}"></td></tr>
                     </tbody>
                 </table>
             </div>
