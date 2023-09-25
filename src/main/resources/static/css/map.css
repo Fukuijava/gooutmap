@@ -14,7 +14,7 @@ body {
 #sidebar {
     border: 2px solid #000000;
     background-color: white;
-    max-width: 30%;
+    width: 30%;
     height: 100%;
     overflow: auto;
      position: absolute;
@@ -40,6 +40,32 @@ body {
     left: 170px;
     z-index: 1;
 }
+#routeButton {
+    position: absolute;
+    top: 10px;
+    left: 280px;
+    z-index: 1;
+}
+
+.fadeRight{
+animation-name:fadeRightAnime;
+animation-duration:0.5s;
+animation-fill-mode:forwards;
+opacity:0;
+}
+
+@keyframes fadeRightAnime{
+  from {
+    opacity: 0;
+	transform: translateX(100px);
+  }
+
+  to {
+    opacity: 1;
+	transform: translateX(0);
+  }
+}
+
 .hero {
     width: 100%;
     height: auto;

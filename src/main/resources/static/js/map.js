@@ -252,3 +252,12 @@ function showRoutes(placeResult){
     }
     window.initMap = initMap;
 }
+
+
+$(function() {
+    $('Button').on('click', function() {
+        document.getElementById("map").style.width = "100%";
+        document.getElementById("sidebar").style.width = "0%";
+    });
+});
+
