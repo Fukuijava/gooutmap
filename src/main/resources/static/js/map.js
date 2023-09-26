@@ -11,6 +11,7 @@ var move_means;//移動手段
 var route;
 var directionsRenderer;
 var directionsService;
+var count = 0;
 
 function initMap() {
     //golistの要素を取得
@@ -218,7 +219,9 @@ function showPanel(placeResult) {
         infoPane.appendChild(websitePara);
     }
     // infoPaneを開く
-    document.getElementById("map").style.width = "70%";
+    document.getElementById("map").style.width = "71%";
+    document.getElementById("sidebar").style.width = "30%";
+    count = 0;
     document.getElementById("panel").addEventListener("change", showRoutes(placeResult));//showRoutesメソッドへ
 }
 
@@ -255,9 +258,15 @@ function showRoutes(placeResult){
 
 
 $(function() {
-    $('Button').on('click', function() {
-        document.getElementById("map").style.width = "100%";
-        document.getElementById("sidebar").style.width = "0%";
+    $('#routeButton').on('click', function() {
+    count = count+1;
+        if(count % 2 == 1){
+            document.getElementById("map").style.width = "100%";
+            document.getElementById("sidebar").style.width = "0";
+        }else{
+           document.getElementById("map").style.width = "70%";
+           document.getElementById("sidebar").style.width = "30%";
+        }
     });
 });
 
