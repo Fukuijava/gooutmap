@@ -64,4 +64,9 @@ public class RegisterController {
         this.dao.delete_myhome(my_home_id);
         return "register";
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }
