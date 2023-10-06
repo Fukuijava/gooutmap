@@ -1,6 +1,6 @@
 package webapp.gooutmap;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ class GoOutMapApplicationTests {
 	private MockMvc mockMvc;
 	@Autowired//テスト対象のクラスをDIコンテナに登録。
 	RegisterController target;
-	@Before
+	@BeforeEach
 	public void setup() {
 		mockMvc = MockMvcBuilders.standaloneSetup(target).build();
 	}

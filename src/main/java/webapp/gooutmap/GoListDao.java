@@ -57,7 +57,7 @@ public class GoListDao {
     }
 
     public void set_myhome(RegisterController.MyHomeItem myHomeItem) {
-        jdbcTemplate.update("DELETE FROM my_home");
+//        jdbcTemplate.update("DELETE FROM my_home");
         SqlParameterSource param = new BeanPropertySqlParameterSource(myHomeItem);
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("my_home");
         insert.execute(param);
@@ -71,6 +71,12 @@ public class GoListDao {
                         row.get("coordinate").toString()
                 )).toList();
         return list;
+    }
+
+    public String getCoordinate(){
+        String query = "SELECT coordinate FROM my_home LIMIT 1";
+        return jdbcTemplate.queryForObject(query, String.class);
+
     }
 
     public List<RegisterController.GoListItem> gomap(String golist_id) {
@@ -92,4 +98,3 @@ public class GoListDao {
         return number;
     }
 }
-
