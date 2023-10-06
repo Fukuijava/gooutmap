@@ -1,3 +1,33 @@
-.list_form{
-    width: 75%;
+* {
+  margin:0;
+  padding:0;
+}
+header {
+  height: 100px;
+  width: 100%;
+  padding: 15px 0;
+}
+header .headline{
+    line-height: 50px;
+    float: left;
+    font-size: 60px;
+    }
+.nav-list {
+    line-height: 100px;
+    float: left;
+    margin-left: 30px;
+    list-style: none;
+}
+.nav-list-item {
+  list-style: none;
+  display: inline-block;
+  margin: 0 20px;
+}
+a {
+    text-decoration: none;
+    color: #000000; /* 今回は#000000を指定していますが、好きな色を指定できます */
+    size: 4in 6in;
+}
+.title {
+  font-family: "Nico Moji";
 }

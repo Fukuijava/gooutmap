@@ -2,95 +2,117 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <a href="/gomap/register">登録へ</a>
     <title>ゴーアウトマップ-一覧画面</title>
     <!-- Bootstrap(head記述) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <!-- JQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <!-- Font Awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <!--  ニコモジフォント  -->
+    <link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
     <!--  list.js読み込み  -->
     <script th:src="@{/js/list.js}"></script>
     <!--     list.css読み込み -->
     <link th:href="@{/css/list.css}" rel="stylesheet">
+
 </head>
 
 <body>
-<div class="list_form">
-    <h2>お出かけ先一覧</h2>
+<header class="p-3 mb-2 bg-secondary bg-gradient text-white">
+    <h1 class="headline">
+        <a class="title" href="/gomap/list">ゴーアウトマップ</a>
+    </h1>
+    <ul class="nav-list">
+        <li class="nav-list-item">
+            <a href="/gomap/register">登録へ</a>
+        </li>
+        <li class="nav-list-item">???</li>
+    </ul>
+</header>
+<div class="bg-secondary p-2 text-dark bg-opacity-10">
+    <div class="list_form">
+        <h2>お出かけ先一覧</h2>
+        <i class="fa-solid fa-shield-halved"></i>
+        <table class="table table-striped" id="listform">
+            <thead>
+            <tr>
+                <th class="hidden">ID</th>
+                <th>都道府県</th>
+                <th>市区町村</th>
+                <th>ジャンル</th>
+                <th>移動手段</th>
+                <th>マップ</th>
+                <th>更新</th>
+                <th>削除</th>
+            </tr>
+            </thead>
 
-    <table class="table table-striped" id="listform">
-        <thead>
-        <tr>
-            <th class="hidden">ID</th>
-            <th>都道府県</th>
-            <th>市区町村</th>
-            <th>ジャンル</th>
-            <th>移動手段</th>
-            <th>マップ</th>
-            <th>更新</th>
-            <th>削除</th>
-        </tr>
-        </thead>
+            <tbody>
+            <tr th:each="gomap : ${gomapList}">
+                <td th:text="${gomap.golist_id}" class="hidden" ></td>
+                <td th:text="${gomap.pref}"></td>
+                <td th:text="${gomap.city}"></td>
+                <td th:text="${gomap.genre}"></td>
+                <td th:text="${gomap.move_means}"></td>
+                <td>
+                    <form th:action="@{/gomap/map/{gomap.golist_id}}">
+                        <button type="submit" class="btn btn-success">マップへ</button>
+                        <input type="hidden" name="golist_id" th:value="${gomap.golist_id}" />
+                    </form>
+                </td>
+                <td>
+                    <button id="update_bu" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新する</button>
+                </td>
+                <td>
+                    <form th:action="@{/gomap/delete}">
+                        <button type="submit" class="btn btn-secondary">削除する</button>
+                        <input type="hidden" name="golist_id" th:value="${gomap.golist_id}" />
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <tbody>
-        <tr th:each="gomap : ${gomapList}">
-            <td th:text="${gomap.golist_id}" class="hidden" ></td>
-            <td th:text="${gomap.pref}"></td>
-            <td th:text="${gomap.city}"></td>
-            <td th:text="${gomap.genre}"></td>
-            <td th:text="${gomap.move_means}"></td>
-            <td>
-                <form th:action="@{/gomap/map/{gomap.golist_id}}">
-                    <button type="submit" class="btn btn-success">マップへ</button>
-                    <input type="hidden" name="golist_id" th:value="${gomap.golist_id}" />
+    <div class="modal fade" id="updatedialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/gomap/update}" method="post">
+                    <div class="modal-header">
+                        <h2>項目を更新します</h2>
+                    </div>
+
+                    <div class="modal-body">
+                        <input name="golist_id" id="golist_id" type="hidden"/>
+                        <label>都道府県</label>
+                        <select name="pref" id="pref"></select>
+                        <br>
+                        <label>市区町村</label>
+                        <select name="city" id="city"></select>
+                        <br>
+                        <label>ジャンル</label>
+                        <select name="genre" id="genre"></select>
+                        <br>
+                        <label>移動手段</label>
+                        <select name="move_means" id="move_means">
+                            <option value="車">車</option>
+                            <option value="徒歩">徒歩</option>
+                        </select>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="">更新</button>
+                            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                        </div>
                 </form>
-            </td>
-            <td>
-                <button id="update_bu" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新する</button>
-            </td>
-            <td>
-                <form th:action="@{/gomap/delete}">
-                    <button type="submit" class="btn btn-secondary">削除する</button>
-                    <input type="hidden" name="golist_id" th:value="${gomap.golist_id}" />
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="modal fade" id="updatedialog" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form th:action="@{/gomap/update}" method="post">
-                <div class="modal-header">
-                    <h2>項目を更新します</h2>
-                </div>
-
-                <div class="modal-body">
-                    <input name="golist_id" id="golist_id" type="hidden"/>
-                    <label>都道府県</label>
-                    <select name="pref" id="pref"></select>
-                    <br>
-                    <label>市区町村</label>
-                    <select name="city" id="city"></select>
-                    <br>
-                    <label>ジャンル</label>
-                    <select name="genre" id="genre"></select>
-                    <br>
-                    <label>移動手段</label>
-                    <select name="move_means" id="move_means">
-                        <option value="車">車</option>
-                        <option value="徒歩">徒歩</option>
-                    </select>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="">更新</button>
-                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                </div>
-            </form>
+            </div>
         </div>
+    </div>
+
+    <!--http://drive.google.com/uc?export=view&id={ID}  グーグルドライブの画像表示-->
+    <div id="image">
+        <img src="http://drive.google.com/uc?export=view&id=1ij1h0X5CKcl48YR7AEhkwAGgeiWwLdeX"
+             alt="asd" width="80%" height="500"/>
     </div>
 </div>
 <!-- Bootstrap(body記述) -->
