@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <person person_id="1" pref="佐賀県" city="佐賀市" genre="図書館" move_means="車"/>
+    <person person_id="2" pref="福岡県" city="福岡市" genre="コンビニ" move_means="徒歩"/>
+    <person person_id="3" pref="北海道" city="札幌市" genre="観光名所" move_means="車"/>
+</dataset>

@@ -1,3 +1,12 @@
+#aa {
+margin: 0;
+display: block;
+padding-top: 0;
+padding-right: 0;
+padding-bottom: 0;
+padding-left: 0;
+}
+
 .item_register_form{
     float:left;
 }
@@ -12,3 +21,32 @@
 .myhome_Coordinate{
     float:left;
 }
+header {
+  height: 100px;
+  width: 100%;
+  padding: 0px;
+}
+header .headline{
+    line-height: 50px;
+    float: left;
+    font-size: 60px;
+    }
+.nav-list {
+    line-height: 100px;
+    float: left;
+    margin-left: 30px;
+    list-style: none;
+}
+.nav-list-item {
+  list-style: none;
+  display: inline-block;
+  margin: 0 20px;
+}
+a {
+    text-decoration: none;
+    color: #000000; /* 今回は#000000を指定していますが、好きな色を指定できます */
+    size: 4in 6in;
+}
+.title {
+  font-family: "Nico Moji";
+  }
