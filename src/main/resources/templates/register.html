@@ -2,14 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>ゴーアウト-登録画面</title>
     <a href="/gomap/list">一覧へ</a>
-    <!-- JQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-    <!--  register.js読み込み  -->
-    <script th:src="@{/js/register.js}"></script>
-    <!--     register.css読み込み -->
+    <!-- CSS読込 -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
     <link th:href="@{/css/register.css}" rel="stylesheet">
+    <!-- JS読込 -->
+    <script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script th:src="@{/js/register.js}"></script>
 </head>
 
 <body>

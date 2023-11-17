@@ -22,6 +22,6 @@ public class MapController {
         List<RegisterController.MyHomeItem> myHomeItems = this.dao.myhome();
         model.addAttribute("gomapList", goListItems);
         model.addAttribute("my_home_List", myHomeItems);
-        return "map";
+        return "map
     }
 }
