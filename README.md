@@ -1,12 +1,19 @@
 ## ゴーアウトマップ
-* このWebアプリはGoogle Maps APIを使用したWebアプリです。
-* 指定した場所、ジャンル、移動手段を使い自宅からのルートを一度に全て表示でき、
-* これを使う事でGoogleMapで一つ一つ検索しながら比べる事はしなくてすみます！
 
+## 概要
+* 行きたい場所の条件を保存でき、その条件のマップを表示できるWebアプリケーション
 
-* もし、行きたい場所が一つでも同じ条件の他の場所も一緒に見られるから新しい発見があるかも！？
+## 開発環境
+* 使用言語　Java17
+* フレームワーク　Spring JDBC
+* データベース　MySQL
 
+## 環境構築
+1. XAMPPからApacheとMySQLを起動
+2. phpMyAdminから、「gooutmapdb」でデータベースを作成
+3. 実行構成を「GoOutMapApplication」に設定
+4. 起動
 
-* mySQLにgooutmapdbテーブルを作成して起動してください。
+## URL
 * 登録画面 URL http://localhost:8080/gomap/register
 * 一覧画面 URL http://localhost:8080/gomap/list

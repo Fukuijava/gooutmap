@@ -3,8 +3,6 @@ package webapp.gooutmap;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import jakarta.transaction.Transactional;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +39,6 @@ import java.sql.DriverManager;
 @SpringBootTest//主に、Service や Dao（Repository）など DI コンテナを用いた処理をテストする際に使用します。
 @AutoConfigureMockMvc//Controller のテストとして、対象のパスにリクエストを送信するために使用します。
 public class RegisterControllerTest {
-
-    String jdbcUrl = "jdbc:mariadb://127.0.0.1:36/database_test?useUnicode=true&useLegacyDatetimeCode=false";
-    Connection jdbcConnection = DriverManager.getConnection(jdbcUrl, "root", "");
-    IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
 
     @Autowired
     MockMvc mockMvc;
@@ -101,30 +95,13 @@ public class RegisterControllerTest {
                 .andExpect(view().name("register"));//"/gomap/register"でregister.htmlを返すか確認します。
     }
 
-    @DisplayName("DAOのadd_item機能テスト")
-    @Order(5)
-    @Test
-    @DatabaseSetup("/dbunit/add.xml")
-    void aaa() {
-        String result = goListDao.getCoordinate();
-        assertThat(result).isEqualTo("33.235495193138945, 130.3222849066703");
-    }
-
     @DisplayName("coordinateが保存されているか")
     @Order(5)
     @Test
     @DatabaseSetup("/dbunit/coordinateTest.xml")
     void coordinateTest() {
-        String result = goListDao.getCoordinate();
+        String id = goListDao.getmyHomeId();
+        String result = goListDao.getCoordinate(id);
         assertThat(result).isEqualTo("33.235495193138945, 130.3222849066703");
     }
-
-
-
-//    @Test
-//    @DatabaseSetup("/dbunit/addTest.xml")
-//    public void addTest() {
-//        System.out.println(RegisterController.GoListItem);
-//        String result = goListDao.add_item();
-//    }
 }
